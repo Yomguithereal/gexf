@@ -150,7 +150,7 @@
 
         // TODO: Enforcing
         var name = curattr.title;
-        var value = _typeEnforcing(attributes['value']);
+        var value = _typeEnforcing("", attributes['value']);
 
         // TODO: Default value
 
@@ -162,7 +162,7 @@
 
     // Type Enforcing
     function _typeEnforcing(type, value){
-
+      return value;
     }
 
     // Edges
@@ -271,16 +271,15 @@
     request.open('GET', gexf_url, false);
     request.send();
 
-    // Returning GEXF XML File
+    // Returning GEXF
     return request.responseXML;
   }
 
   // Parsing the GEXF File
   function _parse(gexf_url){
 
-    // Getting gexf
-    var gexf = __fetch(gexf_url);
-    return new Graph(gexf);
+    // Composing Graph
+    return new Graph(__fetch(gexf_url));
   }
 
   //------------------------------------------------------------------
