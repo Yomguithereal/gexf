@@ -22,6 +22,8 @@
   function Graph(xml){
 
     // TODO: Add controls --> is that a good gexf?
+    // TODO: Deal with types correctly
+    // TODO: Deal with viz namespace
 
 
     // Basic Properties
@@ -87,6 +89,8 @@
           title: attr.getAttribute("title") || ""
         };
 
+        properties["id"] = parseInt(properties["id"]);
+
         // Getting default
         var default_element = attr.childNodes.to_array();
 
@@ -98,11 +102,14 @@
         attributes.push(properties);
       });
 
-      return {attributes: attributes};
+      // TODO: What if attributes are not ordered correctly
+      return {
+        attributes: attributes.sort(function(a,b){ return a.id - b.id; })
+      };
     }
 
     // Nodes
-    function _nodes(){
+    function _nodes(model){
       var nodes = [];
 
       // Iteration through nodes
@@ -114,10 +121,48 @@
           label: node.getAttribute("label") || ""
         };
 
+        // Retrieving data from nodes if any
+        if(model.attributes.length > 0){
+          properties["attributes"] = _nodeData(model, node);
+        }
+
         nodes.push(new Node(properties));
       });
 
       return nodes;
+    }
+
+    // Data from nodes
+    function _nodeData(model, node){
+
+      // Getting attributes
+      var data = {};
+      var attributes_elements = node.getElementsByTagName("attvalue").to_array();
+
+      // Iterating
+      // TODO: Iterate on model attributes rather than elements
+      attributes_elements.map(function(attribute_element){
+        var attributes = attribute_element.attributes.to_object();
+
+        var id = attributes['id'] || attributes['for'];
+        var curattr = model.attributes[parseInt(id)];
+
+
+        // TODO: Enforcing
+        var name = curattr.title;
+        var value = _typeEnforcing(attributes['value']);
+
+        // TODO: Default value
+
+        data[name] = value;
+      });
+
+      return data;
+    }
+
+    // Type Enforcing
+    function _typeEnforcing(type, value){
+
     }
 
     // Edges
@@ -147,7 +192,7 @@
     this.defaultEdgeType = _defaultEdgeType();
     this.meta = _metaData();
     this.model = _model();
-    this.nodes = _nodes();
+    this.nodes = _nodes(this.model);
     this.edges = _edges();
   }
 
@@ -157,7 +202,7 @@
   function Node(properties){
 
     // Possible Properties
-    this.id = properties.id;
+    this.id = parseInt(properties.id);
     this.label = properties.label;
     this.attributes = properties.attributes || {};
   }
@@ -168,11 +213,11 @@
   function Edge(properties){
 
     // Possible Properties
-    this.id = properties.id;
+    this.id = parseInt(properties.id);
     this.type = properties.type || "undirected";
     this.label = properties.label || "";
-    this.source = properties.source;
-    this.target = properties.target;
+    this.source = parseInt(properties.source);
+    this.target = parseInt(properties.target);
     this.weight = properties.weight || 1.0;
   }
 
