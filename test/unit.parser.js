@@ -19,3 +19,7 @@ console.log(graph2);
 var graph3 = GexfParser.parse('resources/data.gexf');
 
 console.log(graph3);
+
+var graph4 = GexfParser.parse('resources/arctic.gexf');
+
+console.log(graph4);

@@ -10,7 +10,7 @@
 
 ;(function(undefined){
 
-  "use strict";
+  'use strict';
 
   //------------------------------------------------------------------
 
@@ -21,52 +21,52 @@
   //-------------
   function Graph(xml){
 
-    // TODO: Add controls --> is that a good gexf?
-    // TODO: Deal with types correctly
+    // TODO: Controls GEXF
     // TODO: Deal with viz namespace
 
 
     // Basic Properties
     //
-    var self = this;
-    var root_element = xml.getElementsByTagName("gexf")[0];
-    var graph_element = xml.getElementsByTagName("graph")[0];
-    var meta_element = xml.getElementsByTagName("meta")[0];
-    var model_elements = xml.getElementsByTagName("attribute");
-    var nodes_elements = xml.getElementsByTagName("node");
-    var edges_elements = xml.getElementsByTagName("edge");
+    var _rootElement = xml.getElementsByTagName('gexf')[0];
+    var _graphElement = xml.getElementsByTagName('graph')[0];
+    var _metaElement = xml.getElementsByTagName('meta')[0];
+    var _modelElements = xml.getElementsByTagName('attribute');
+    var _nodesElements = xml.getElementsByTagName('node');
+    var _edgesElements = xml.getElementsByTagName('edge');
+
+    var _hasViz = _rootElement.getAttribute("xmlns:viz") !== null;
 
     // Parser Functions
     //
 
     // Graph Version
     function _version(){
-      return root_element.getAttribute("version") || "1.0";
+      return _rootElement.getAttribute('version') || '1.0';
     }
 
     // Graph Mode
     function _mode(){
-      return graph_element.getAttribute("mode") || "static";
+      return _graphElement.getAttribute('mode') || 'static';
     }
 
     // Default Edge Type
     function _defaultEdgeType(){
-      return graph_element.getAttribute("defaultedgetype") || "undirected";
+      return _graphElement.getAttribute('defaultedgetype') || 'undirected';
     }
 
     // Meta Data
     function _metaData(){
 
       var metas = {};
-      if(!meta_element){
+      if(!_metaElement){
         return metas;
       }
 
       // Last modified date
-      metas["lastmodifieddate"] = meta_element.getAttribute("lastmodifieddate");
+      metas['lastmodifieddate'] = _metaElement.getAttribute('lastmodifieddate');
 
       // Other information
-      var meta_children = meta_element.childNodes.to_array();
+      var meta_children = _metaElement.childNodes.to_array();
 
       meta_children.map(function(child){
         metas[child.tagName] = child.textContent;
@@ -80,16 +80,16 @@
       var attributes = [];
 
       // Iterating through attributes
-      model_elements.to_array().map(function(attr){
+      _modelElements.to_array().map(function(attr){
 
         // Properties
         var properties = {
-          id: attr.getAttribute("id") || attr.getAttribute("for"),
-          type: attr.getAttribute("type") || "string",
-          title: attr.getAttribute("title") || ""
+          id: attr.getAttribute('id') || attr.getAttribute('for'),
+          type: attr.getAttribute('type') || 'string',
+          title: attr.getAttribute('title') || ''
         };
 
-        properties["id"] = parseInt(properties["id"]);
+        properties['id'] = parseInt(properties['id']);
 
         // Getting default
         var default_element = attr.childNodes.to_array();
@@ -104,7 +104,7 @@
 
       // TODO: What if attributes are not ordered correctly
       return {
-        attributes: attributes.sort(function(a,b){ return a.id - b.id; })
+        attributes: attributes
       };
     }
 
@@ -113,17 +113,22 @@
       var nodes = [];
 
       // Iteration through nodes
-      nodes_elements.to_array().map(function(node){
+      _nodesElements.to_array().map(function(node){
 
         // Basic properties
         var properties = {
-          id: node.getAttribute("id"),
-          label: node.getAttribute("label") || ""
+          id: node.getAttribute('id'),
+          label: node.getAttribute('label') || ''
         };
 
         // Retrieving data from nodes if any
         if(model.attributes.length > 0){
-          properties["attributes"] = _nodeData(model, node);
+          properties['attributes'] = _nodeData(model, node);
+        }
+
+        // Retrieving viz information
+        if(_hasViz){
+          properties['viz'] = _nodeViz(node);
         }
 
         nodes.push(new Node(properties));
@@ -135,51 +140,56 @@
     // Data from nodes
     function _nodeData(model, node){
 
-      // Getting attributes
+      // TODO: Check if not att no default passes
+
       var data = {};
-      var attributes_elements = node.getElementsByTagName("attvalue").to_array();
+      var attvalues_elements = node.getElementsByTagName('attvalue');
 
-      // Iterating
-      // TODO: Iterate on model attributes rather than elements
-      attributes_elements.map(function(attribute_element){
-        var attributes = attribute_element.attributes.to_object();
+      // Getting Node Indicated Attributes
+      var attvalues_hash = attvalues_elements.to_hash(function(el){
+        var attributes = el.attributes.to_object();
+        var key = attributes['id'] || attributes['for'];
 
-        var id = attributes['id'] || attributes['for'];
-        var curattr = model.attributes[parseInt(id)];
+        // Returning object
+        return {key: key, value: attributes['value']};
+      });
 
 
-        // TODO: Enforcing
-        var name = curattr.title;
-        var value = _typeEnforcing("", attributes['value']);
+      // Iterating through model
+      model.attributes.map(function(attribute){
 
-        // TODO: Default value
+        // Default value?
+        data[attribute.title] = (!(attribute.id in attvalues_hash) && "defaultValue" in attribute)
+          ? __enforceType(attribute.type, attribute.defaultValue)
+          : __enforceType(attribute.type, attvalues_hash[attribute.id]);
 
-        data[name] = value;
       });
 
       return data;
     }
 
-    // Type Enforcing
-    function _typeEnforcing(type, value){
+    // Viz information from nodes
+    function _nodeViz(node){
+      // color (int rgba), position(int x, y, z), size (float), shape
 
-      switch(type){
-        case "boolean":
-          value = !!value;
-          break;
+      var viz = {};
 
-        case "integer":
-        case "long":
-          value = parseInt(value);
-          break;
+      // Color
+      // TODO: array or attr?
+      var color_element = node.getElementsByTagName('color')[0];
 
-        case "float":
-        case "double":
-          value = parseFloat(value);
-          break;
+      if(color_element){
+        viz.color = [
+          parseInt(color_element.getAttribute('r')),
+          parseInt(color_element.getAttribute('b')),
+          parseInt(color_element.getAttribute('g')),
+          parseFloat(color_element.getAttribute('a')) || 1.0
+        ]
       }
 
-      return value;
+      // Position
+
+      return viz;
     }
 
     // Edges
@@ -187,7 +197,7 @@
       var edges = [];
 
       // Iteration through edges
-      edges_elements.to_array().map(function(edge){
+      _edgesElements.to_array().map(function(edge){
 
         // Creating the edge
         var properties = edge.attributes.to_object();
@@ -222,6 +232,7 @@
     this.id = parseInt(properties.id);
     this.label = properties.label;
     this.attributes = properties.attributes || {};
+    this.viz = properties.viz || {};
   }
 
 
@@ -231,8 +242,8 @@
 
     // Possible Properties
     this.id = parseInt(properties.id);
-    this.type = properties.type || "undirected";
-    this.label = properties.label || "";
+    this.type = properties.type || 'undirected';
+    this.label = properties.label || '';
     this.source = parseInt(properties.source);
     this.target = parseInt(properties.target);
     this.weight = properties.weight || 1.0;
@@ -242,6 +253,8 @@
 
   // Helpers
   //=========
+
+  // TODO: Is Node order important?
 
   // Transform a NodeList Object to iterable array
   NodeList.prototype.to_array = function(){
@@ -253,6 +266,23 @@
     for(var i = this.length >>> 0; i--;){
       if(this[i].nodeName !== '#text'){
         children.push(this[i]);
+      }
+    }
+
+    return children;
+  }
+
+  // Transform a NodeList Object into an indexed hash
+  NodeList.prototype.to_hash = function(filter){
+
+    // Return object
+    var children = {};
+
+    // Iterating
+    for(var i = this.length >>> 0; i--;){
+      if(this[i].nodeName !== '#text'){
+        var prop = filter(this[i]);
+        children[prop.key] = prop.value;
       }
     }
 
@@ -272,6 +302,28 @@
 
     return attributes;
 
+  }
+
+  // Type Enforcing
+  function __enforceType(type, value){
+
+    switch(type){
+      case 'boolean':
+        value = (value === 'true');
+        break;
+
+      case 'integer':
+      case 'long':
+        value = parseInt(value);
+        break;
+
+      case 'float':
+      case 'double':
+        value = parseFloat(value);
+        break;
+    }
+
+    return value;
   }
 
   //------------------------------------------------------------------
