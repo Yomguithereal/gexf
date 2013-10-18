@@ -66,7 +66,7 @@
       metas['lastmodifieddate'] = _metaElement.getAttribute('lastmodifieddate');
 
       // Other information
-      var meta_children = _metaElement.childNodes.to_array();
+      var meta_children = __nodeListToArray(_metaElement.childNodes);
 
       meta_children.map(function(child){
         metas[child.tagName] = child.textContent;
@@ -80,7 +80,7 @@
       var attributes = [];
 
       // Iterating through attributes
-      _modelElements.to_array().map(function(attr){
+      __nodeListToArray(_modelElements).map(function(attr){
 
         // Properties
         var properties = {
@@ -92,7 +92,7 @@
         properties['id'] = parseInt(properties['id']);
 
         // Getting default
-        var default_element = attr.childNodes.to_array();
+        var default_element = __nodeListToArray(attr.childNodes);
 
         if(default_element.length > 0){
           properties['defaultValue'] = default_element[0].textContent;
@@ -113,7 +113,7 @@
       var nodes = [];
 
       // Iteration through nodes
-      _nodesElements.to_array().map(function(node){
+      __nodeListToArray(_nodesElements).map(function(node){
 
         // Basic properties
         var properties = {
@@ -146,8 +146,8 @@
       var attvalues_elements = node.getElementsByTagName('attvalue');
 
       // Getting Node Indicated Attributes
-      var attvalues_hash = attvalues_elements.to_hash(function(el){
-        var attributes = el.attributes.to_object();
+      var attvalues_hash = __nodesListToHash(attvalues_elements, function(el){
+        var attributes = __namedNodeMapToObject(el.attributes);
         var key = attributes['id'] || attributes['for'];
 
         // Returning object
@@ -175,16 +175,19 @@
       var viz = {};
 
       // Color
-      // TODO: array or attr?
       var color_element = node.getElementsByTagName('color')[0];
 
       if(color_element){
-        viz.color = [
-          parseInt(color_element.getAttribute('r')),
-          parseInt(color_element.getAttribute('b')),
-          parseInt(color_element.getAttribute('g')),
-          parseFloat(color_element.getAttribute('a')) || 1.0
-        ]
+        var color = {
+          r: color_element.getAttribute('r'),
+          g: color_element.getAttribute('g'),
+          b: color_element.getAttribute('b'),
+          a: color_element.getAttribute('a') || false
+        }
+
+        viz.color = (color.a)
+          ? 'rgb(' + color.r + ',' + color.g + ',' + color.b + ')'
+          : 'rgb(' + color.r + ',' + color.g + ',' + color.b + ',' + color.a + ')';
       }
 
       // Position
@@ -197,10 +200,10 @@
       var edges = [];
 
       // Iteration through edges
-      _edgesElements.to_array().map(function(edge){
+      __nodeListToArray(_edgesElements).map(function(edge){
 
         // Creating the edge
-        var properties = edge.attributes.to_object();
+        var properties = __namedNodeMapToObject(edge.attributes);
         if(!'type' in properties){
           properties['type'] = default_type;
         }
@@ -254,18 +257,18 @@
   // Helpers
   //=========
 
-  // TODO: Is Node order important?
+  // Using prototypes was a bad idea, so I chose to make good old functions
 
   // Transform a NodeList Object to iterable array
-  NodeList.prototype.to_array = function(){
+  function __nodeListToArray(nodeList){
 
     // Return array
     var children = [];
 
     // Iterating
-    for(var i = this.length >>> 0; i--;){
-      if(this[i].nodeName !== '#text'){
-        children.push(this[i]);
+    for(var i = nodeList.length >>> 0; i--;){
+      if(nodeList[i].nodeName !== '#text'){
+        children.push(nodeList[i]);
       }
     }
 
@@ -273,15 +276,15 @@
   }
 
   // Transform a NodeList Object into an indexed hash
-  NodeList.prototype.to_hash = function(filter){
+  function __nodesListToHash(nodeList, filter){
 
     // Return object
     var children = {};
 
     // Iterating
-    for(var i = this.length >>> 0; i--;){
-      if(this[i].nodeName !== '#text'){
-        var prop = filter(this[i]);
+    for(var i = nodeList.length >>> 0; i--;){
+      if(nodeList[i].nodeName !== '#text'){
+        var prop = filter(nodeList[i]);
         children[prop.key] = prop.value;
       }
     }
@@ -290,18 +293,17 @@
   }
 
   // Transform NamedNodeMap into hash of attributes
-  NamedNodeMap.prototype.to_object = function(){
+  function __namedNodeMapToObject(nodeMap){
 
     // Return object
     var attributes = {};
 
     // Iterating
-    for(var i = this.length >>> 0; i--;){
-      attributes[this[i].name] = this[i].value;
+    for(var i = nodeMap.length >>> 0; i--;){
+      attributes[nodeMap[i].name] = nodeMap[i].value;
     }
 
     return attributes;
-
   }
 
   // Type Enforcing
@@ -334,6 +336,7 @@
   // Fetching GEXF with XHR
   function __fetch(gexf_url){
 
+    // TODO: Check if really asynchronous
     // XHR Request
     var request = new XMLHttpRequest();
     request.overrideMimeType('text/xml');
@@ -345,6 +348,7 @@
   }
 
   // Parsing the GEXF File
+  // TODO: parse xml or url
   function _parse(gexf_url){
 
     // Composing Graph
