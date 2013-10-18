@@ -63,7 +63,7 @@
       }
 
       // Last modified date
-      metas['lastmodifieddate'] = _metaElement.getAttribute('lastmodifieddate');
+      metas.lastmodifieddate = _metaElement.getAttribute('lastmodifieddate');
 
       // Other information
       var meta_children = __nodeListToArray(_metaElement.childNodes);
@@ -84,18 +84,16 @@
 
         // Properties
         var properties = {
-          id: attr.getAttribute('id') || attr.getAttribute('for'),
+          id: +attr.getAttribute('id') || +attr.getAttribute('for'),
           type: attr.getAttribute('type') || 'string',
           title: attr.getAttribute('title') || ''
         };
-
-        properties['id'] = parseInt(properties['id']);
 
         // Getting default
         var default_element = __nodeListToArray(attr.childNodes);
 
         if(default_element.length > 0){
-          properties['defaultValue'] = default_element[0].textContent;
+          properties.defaultValue = default_element[0].textContent;
         }
 
         // Creating attribute
@@ -123,12 +121,12 @@
 
         // Retrieving data from nodes if any
         if(model.attributes.length > 0){
-          properties['attributes'] = _nodeData(model, node);
+          properties.attributes = _nodeData(model, node);
         }
 
         // Retrieving viz information
         if(_hasViz){
-          properties['viz'] = _nodeViz(node);
+          properties.viz = _nodeViz(node);
         }
 
         nodes.push(new Node(properties));
@@ -148,10 +146,10 @@
       // Getting Node Indicated Attributes
       var attvalues_hash = __nodesListToHash(attvalues_elements, function(el){
         var attributes = __namedNodeMapToObject(el.attributes);
-        var key = attributes['id'] || attributes['for'];
+        var key = +attributes.id || +attributes.for;
 
         // Returning object
-        return {key: key, value: attributes['value']};
+        return {key: key, value: attributes.value};
       });
 
 
@@ -159,9 +157,9 @@
       model.attributes.map(function(attribute){
 
         // Default value?
-        data[attribute.title] = (!(attribute.id in attvalues_hash) && "defaultValue" in attribute)
-          ? __enforceType(attribute.type, attribute.defaultValue)
-          : __enforceType(attribute.type, attvalues_hash[attribute.id]);
+        data[attribute.title] = (!(attribute.id in attvalues_hash) && "defaultValue" in attribute) ?
+          __enforceType(attribute.type, attribute.defaultValue) :
+          __enforceType(attribute.type, attvalues_hash[attribute.id]);
 
       });
 
@@ -182,9 +180,9 @@
           return color_element.getAttribute(c);
         });
 
-        viz.color = (color[4])
-          ? 'rgba(' + color.join(',') + ')'
-          : 'rgb(' + color.slice(0, -1).join(',') + ')';
+        viz.color = (color[4]) ?
+          'rgba(' + color.join(',') + ')' :
+          'rgb(' + color.slice(0, -1).join(',') + ')';
       }
 
       // Position
@@ -194,7 +192,7 @@
         viz.position = {};
 
         ['x', 'y', 'z'].map(function(p){
-          viz.position[p] = parseFloat(position_element.getAttribute(p));
+          viz.position[p] = +position_element.getAttribute(p);
         });
       }
 
@@ -203,9 +201,9 @@
         var element = node.getElementsByTagName(t)[0];
 
         if(element){
-          viz[t] = (t === 'size')
-            ? parseFloat(element.getAttribute('value'))
-            : element.getAttribute('value');
+          viz[t] = (t === 'size') ?
+            +element.getAttribute('value') :
+            element.getAttribute('value');
         }
       });
 
@@ -221,8 +219,8 @@
 
         // Creating the edge
         var properties = __namedNodeMapToObject(edge.attributes);
-        if(!'type' in properties){
-          properties['type'] = default_type;
+        if(!('type' in properties)){
+          properties.type = default_type;
         }
 
         edges.push(new Edge(properties));
@@ -249,7 +247,7 @@
   function Node(properties){
 
     // Possible Properties
-    this.id = parseInt(properties.id);
+    this.id = +properties.id;
     this.label = properties.label;
     this.attributes = properties.attributes || {};
     this.viz = properties.viz || {};
@@ -261,11 +259,11 @@
   function Edge(properties){
 
     // Possible Properties
-    this.id = parseInt(properties.id);
+    this.id = +properties.id;
     this.type = properties.type || 'undirected';
     this.label = properties.label || '';
-    this.source = parseInt(properties.source);
-    this.target = parseInt(properties.target);
+    this.source = +properties.source;
+    this.target = +properties.target;
     this.weight = properties.weight || 1.0;
   }
 
@@ -283,7 +281,7 @@
     var children = [];
 
     // Iterating
-    for(var i = nodeList.length >>> 0; i--;){
+    for(var i = 0; i < nodeList.length; i++){
       if(nodeList[i].nodeName !== '#text'){
         children.push(nodeList[i]);
       }
@@ -299,7 +297,7 @@
     var children = {};
 
     // Iterating
-    for(var i = nodeList.length >>> 0; i--;){
+    for(var i = 0; i < nodeList.length; i++){
       if(nodeList[i].nodeName !== '#text'){
         var prop = filter(nodeList[i]);
         children[prop.key] = prop.value;
@@ -316,7 +314,7 @@
     var attributes = {};
 
     // Iterating
-    for(var i = nodeMap.length >>> 0; i--;){
+    for(var i = 0; i < nodeMap.length; i++){
       attributes[nodeMap[i].name] = nodeMap[i].value;
     }
 
@@ -333,12 +331,12 @@
 
       case 'integer':
       case 'long':
-        value = parseInt(value);
+        value = +value;
         break;
 
       case 'float':
       case 'double':
-        value = parseFloat(value);
+        value = +value;
         break;
     }
 
@@ -383,6 +381,6 @@
 
     // Version
     version: '0.1'
-  }
+  };
 
 }).call(this);
