@@ -178,19 +178,36 @@
       var color_element = node.getElementsByTagName('color')[0];
 
       if(color_element){
-        var color = {
-          r: color_element.getAttribute('r'),
-          g: color_element.getAttribute('g'),
-          b: color_element.getAttribute('b'),
-          a: color_element.getAttribute('a') || false
-        }
+        var color = ['r', 'g', 'b', 'a'].map(function(c){
+          return color_element.getAttribute(c);
+        });
 
-        viz.color = (color.a)
-          ? 'rgb(' + color.r + ',' + color.g + ',' + color.b + ')'
-          : 'rgb(' + color.r + ',' + color.g + ',' + color.b + ',' + color.a + ')';
+        viz.color = (color[4])
+          ? 'rgba(' + color.join(',') + ')'
+          : 'rgb(' + color.slice(0, -1).join(',') + ')';
       }
 
       // Position
+      var position_element = node.getElementsByTagName('position')[0];
+
+      if(position_element){
+        viz.position = {};
+
+        ['x', 'y', 'z'].map(function(p){
+          viz.position[p] = parseFloat(position_element.getAttribute(p));
+        });
+      }
+
+      // Size & Shape
+      ['size', 'shape'].map(function(t){
+        var element = node.getElementsByTagName(t)[0];
+
+        if(element){
+          viz[t] = (t === 'size')
+            ? parseFloat(element.getAttribute('value'))
+            : element.getAttribute('value');
+        }
+      });
 
       return viz;
     }
