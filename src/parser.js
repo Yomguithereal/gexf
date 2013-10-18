@@ -169,7 +169,7 @@
       var viz = {};
 
       // Color
-      var color_element = node.getElementsByTagName('color')[0];
+      var color_element = __getFirstElementByTagNS(node, ['viz', 'color']);
 
       if(color_element){
         var color = ['r', 'g', 'b', 'a'].map(function(c){
@@ -182,7 +182,7 @@
       }
 
       // Position
-      var position_element = node.getElementsByTagName('position')[0];
+      var position_element = __getFirstElementByTagNS(node, ['viz', 'position']);
 
       if(position_element){
         viz.position = {};
@@ -194,7 +194,7 @@
 
       // Size & Shape
       ['size', 'shape'].map(function(t){
-        var element = node.getElementsByTagName(t)[0];
+        var element = __getFirstElementByTagNS(node, ['viz', t]);
 
         if(element){
           viz[t] = (t === 'size') ?
@@ -317,6 +317,19 @@
     return attributes;
   }
 
+  // Get first element by namespaced tag name
+  function __getFirstElementByTagNS(node, ns_tag){
+    var element = node.getElementsByTagName(ns_tag[1])[0];
+
+    if(!element)
+      element = node.getElementsByTagNameNS(ns_tag[0], ns_tag[1])[0];
+
+    if(!element)
+      element = node.getElementsByTagName(ns_tag.join(':'))[0];
+
+    return element;
+  }
+
   // Type Enforcing
   function __enforceType(type, value){
 
@@ -349,7 +362,10 @@
 
     // TODO: Check if really asynchronous
     // XHR Request
-    var request = new XMLHttpRequest();
+    var request = window.XMLHttpRequest ?
+      new XMLHttpRequest() :
+      new ActiveXObject('Microsoft.XMLHTTP');
+
     request.overrideMimeType('text/xml');
     request.open('GET', gexf_url, false);
     request.send();
