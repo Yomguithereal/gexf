@@ -84,7 +84,7 @@
 
         // Properties
         var properties = {
-          id: +attr.getAttribute('id') || +attr.getAttribute('for'),
+          id: +(attr.getAttribute('id') || attr.getAttribute('for')),
           type: attr.getAttribute('type') || 'string',
           title: attr.getAttribute('title') || ''
         };
@@ -146,7 +146,7 @@
       // Getting Node Indicated Attributes
       var attvalues_hash = __nodesListToHash(attvalues_elements, function(el){
         var attributes = __namedNodeMapToObject(el.attributes);
-        var key = +attributes.id || +attributes.for;
+        var key = +(attributes.id || attributes.for);
 
         // Returning object
         return {key: key, value: attributes.value};
