@@ -15,15 +15,13 @@
   //------------------------------------------------------------------
 
   // Classes
-  //===========
+  //=========
 
   // Graph Class
   //-------------
   function Graph(xml){
 
     // TODO: Controls GEXF
-    // TODO: Deal with viz namespace
-
 
     // Basic Properties
     //
@@ -100,7 +98,6 @@
         attributes.push(properties);
       });
 
-      // TODO: What if attributes are not ordered correctly
       return {
         attributes: attributes
       };
@@ -144,7 +141,7 @@
       // Getting Node Indicated Attributes
       var attvalues_hash = __nodesListToHash(attvalues_elements, function(el){
         var attributes = __namedNodeMapToObject(el.attributes);
-        var key = +(attributes.id || attributes.for);
+        var key = +(attributes.id || attributes['for']);
 
         // Returning object
         return {key: key, value: attributes.value};
@@ -237,6 +234,9 @@
     this.edges = _edges(this.defaultEdgeType);
   }
 
+  // TODO: Remove constructor --> basic objects
+  // --> object return object
+  // Rework graph
 
   // Node Class
   //------------
