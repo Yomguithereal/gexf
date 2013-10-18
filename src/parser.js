@@ -138,8 +138,6 @@
     // Data from nodes
     function _nodeData(model, node){
 
-      // TODO: Check if not att no default passes
-
       var data = {};
       var attvalues_elements = node.getElementsByTagName('attvalue');
 
@@ -168,8 +166,6 @@
 
     // Viz information from nodes
     function _nodeViz(node){
-      // color (int rgba), position(int x, y, z), size (float), shape
-
       var viz = {};
 
       // Color
@@ -238,7 +234,7 @@
     this.meta = _metaData();
     this.model = _model();
     this.nodes = _nodes(this.model);
-    this.edges = _edges();
+    this.edges = _edges(this.defaultEdgeType);
   }
 
 

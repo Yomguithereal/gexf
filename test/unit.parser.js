@@ -23,3 +23,7 @@ console.log(graph3);
 var graph4 = GexfParser.parse('resources/arctic.gexf');
 
 console.log(graph4);
+
+var graph5 = GexfParser.parse('resources/celegans.gexf');
+
+console.log(graph5);
