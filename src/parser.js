@@ -340,9 +340,6 @@
 
       case 'integer':
       case 'long':
-        value = +value;
-        break;
-
       case 'float':
       case 'double':
         value = +value;
