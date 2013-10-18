@@ -162,6 +162,23 @@
 
     // Type Enforcing
     function _typeEnforcing(type, value){
+
+      switch(type){
+        case "boolean":
+          value = !!value;
+          break;
+
+        case "integer":
+        case "long":
+          value = parseInt(value);
+          break;
+
+        case "float":
+        case "double":
+          value = parseFloat(value);
+          break;
+      }
+
       return value;
     }
 
