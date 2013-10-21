@@ -1,2 +1,6 @@
 .DS_Store
 Todo.md
+node_modules
+
+# No Build for the time being
+build
