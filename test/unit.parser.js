@@ -12,8 +12,6 @@
 
   // Helpers
   //---------
-  function Node(){};
-  function Edge(){};
 
   Object.prototype.testBasics = function(basics){
 
@@ -36,7 +34,7 @@
       'Model correctly retrieved.'
     );
 
-      // Nodes
+    // Nodes
     strictEqual(this.nodes.length, basics.nodes_nb, 'All nodes retrieved.');
     deepEqual(
       this.nodes[basics.node_test.id],
@@ -44,7 +42,6 @@
       'Node test passed.'
     );
 
-    console.log(this.nodes[basics.node_test.id], basics.node_test.node);
     // Edges
     strictEqual(this.edges.length, basics.edges_nb, 'All edges retrieved.');
     deepEqual(
@@ -57,91 +54,139 @@
 
   // Tests
   //-------
-  test('Minimal Graph', function(){
+  var tests = [
 
-    // Parsing graph
-    var graph = GexfParser.parse('resources/minimal.gexf');
-    console.log(graph);
-
-    // Checking
-    graph.testBasics({
-      version: '1.2',
-      mode: 'static',
-      defaultEdgeType: 'directed',
-      meta: {
-        creator: 'Gexf.net',
-        description: 'A hello world! file',
-        lastmodifieddate: '2009-03-20'
-      },
-      model: [],
-      nodes_nb: 2,
-      node_test: {
-        id: 0,
-        node: {
+    {
+      title: 'Minimal Graph',
+      gexf: 'minimal',
+      basics: {
+        version: '1.2',
+        mode: 'static',
+        defaultEdgeType: 'directed',
+        meta: {
+          creator: 'Gexf.net',
+          description: 'A hello world! file',
+          lastmodifieddate: '2009-03-20'
+        },
+        model: [],
+        nodes_nb: 2,
+        node_test: {
           id: 0,
-          label: 'Hello',
-          attributes: {},
-          viz: {}
-        }
-      },
-      edges_nb: 1,
-      edge_test: {
-        id: 0,
-        edge: {
+          node: {
+            id: 0,
+            label: 'Hello',
+            attributes: {},
+            viz: {}
+          }
+        },
+        edges_nb: 1,
+        edge_test: {
           id: 0,
-          label: '',
-          source: 0,
-          target: 1,
-          type: 'directed',
-          weight: 1
+          edge: {
+            id: 0,
+            label: '',
+            source: 0,
+            target: 1,
+            type: 'directed',
+            weight: 1
+          }
         }
       }
+    },
+
+    {
+      title: 'Basic Graph',
+      gexf: 'yeast',
+      basics: {
+        version: '1.1',
+        mode: 'static',
+        defaultEdgeType: 'undirected',
+        meta: {},
+        model: [],
+        nodes_nb: 2361,
+        node_test: {
+          id: 502,
+          node: {
+            attributes: {},
+            id: 5443,
+            label: 'YDR283C',
+            viz: {}
+          }
+        },
+        edges_nb: 7182,
+        edge_test: {
+          id: 1300,
+          edge: {
+            id: 14488,
+            label: '',
+            source: 5096,
+            target: 6882,
+            type: 'undirected',
+            weight: 1
+          }
+        }
+      }
+    },
+
+    {
+      title: 'Data Graph',
+      gexf: 'data',
+      basics: {
+        version: '1.2',
+        mode: 'static',
+        defaultEdgeType: 'directed',
+        meta: {
+          creator: 'Gephi.org',
+          description: 'A Web network',
+          lastmodifieddate: '2009-03-20'
+        },
+        model: [
+          {id: 0, title: 'url', type: 'string'},
+          {id: 1, title: 'indegree', type: 'float'},
+          {id: 2, title: 'frog', type: 'boolean', defaultValue: 'true'}
+        ],
+        nodes_nb: 4,
+        node_test: {
+          id: 1,
+          node: {
+            id: 1,
+            label: 'Webatlas',
+            attributes: {
+              frog: true,
+              indegree: 2,
+              url: 'http://webatlas.fr'
+            },
+            viz: {}
+          }
+        },
+        edges_nb: 5,
+        edge_test: {
+          id: 3,
+          edge: {
+            id: 3,
+            label: '',
+            source: 2,
+            target: 1,
+            type: 'directed',
+            weight: 1
+          }
+        }
+      }
+    }
+  ];
+
+
+  // Running actual tests
+  tests.map(function(t){
+
+    test(t.title, function(){
+      var graph = GexfParser.parse('resources/'+t.gexf+'.gexf');
+      console.log(graph);
+
+      graph.testBasics(t.basics);
     });
+
   });
 
-  // test('Basic Graph', function(){
-
-  //   var graph = GexfParser.parse('resources/yeast.gexf');
-  //   console.log(graph);
-
-  //   // Checking
-  //   graph.testBasics({
-  //     version: '1.1',
-  //     mode: 'static',
-  //     defaultEdgeType: 'undirected',
-  //     meta: {},
-  //     model: [],
-  //     nodes_nb: 2361,
-  //     edges_nb: 7182
-  //   });
-  // });
-
-  // test('Data Graph', function(){
-
-  //   var graph = GexfParser.parse('resources/data.gexf');
-  //   console.log(graph);
-
-  //   // Checking
-  //   graph.testBasics({
-  //     version: '1.2',
-  //     mode: 'static',
-  //     defaultEdgeType: 'directed',
-  //     meta: {
-  //       creator: 'Gephi.org',
-  //       description: 'A Web network',
-  //       lastmodifieddate: '2009-03-20'
-  //     },
-  //     model: [
-  //       {id: 0, title: 'url', type: 'string'},
-  //       {id: 1, title: 'indegree', type: 'float'},
-  //       {id: 2, title: 'frog', type: 'boolean', defaultValue: 'true'}
-  //     ],
-  //     nodes_nb: 4,
-  //     edges_nb: 5
-  //   });
-  // });
 
 })();
-
-
-// TODO: test node, test edge, test viz

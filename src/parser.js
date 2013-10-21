@@ -126,7 +126,7 @@
           properties.viz = _nodeViz(node);
         }
 
-        nodes.push(new Node(properties));
+        nodes.push(Node(properties));
       });
 
       return nodes;
@@ -216,7 +216,7 @@
           properties.type = default_type;
         }
 
-        edges.push(new Edge(properties));
+        edges.push(Edge(properties));
       });
 
       return edges;
@@ -225,13 +225,18 @@
 
     // Properties
     //
-    this.version = _version();
-    this.mode = _mode();
-    this.defaultEdgeType = _defaultEdgeType();
-    this.meta = _metaData();
-    this.model = _model();
-    this.nodes = _nodes(this.model);
-    this.edges = _edges(this.defaultEdgeType);
+    var model = _model();
+    var defaultedgetype = _defaultEdgeType();
+
+    return {
+      version : _version(),
+      mode : _mode(),
+      defaultEdgeType : defaultedgetype,
+      meta : _metaData(),
+      model : model,
+      nodes : _nodes(model),
+      edges : _edges(defaultedgetype)
+    };
   }
 
   // TODO: Remove constructor --> basic objects
@@ -243,10 +248,12 @@
   function Node(properties){
 
     // Possible Properties
-    this.id = +properties.id;
-    this.label = properties.label;
-    this.attributes = properties.attributes || {};
-    this.viz = properties.viz || {};
+    return {
+      id : +properties.id,
+      label : properties.label,
+      attributes : properties.attributes || {},
+      viz : properties.viz || {}
+    };
   }
 
 
@@ -255,12 +262,14 @@
   function Edge(properties){
 
     // Possible Properties
-    this.id = +properties.id;
-    this.type = properties.type || 'undirected';
-    this.label = properties.label || '';
-    this.source = +properties.source;
-    this.target = +properties.target;
-    this.weight = properties.weight || 1.0;
+    return {
+      id : +properties.id,
+      type : properties.type || 'undirected',
+      label : properties.label || '',
+      source : +properties.source,
+      target : +properties.target,
+      weight : properties.weight || 1.0
+    };
   }
 
   //------------------------------------------------------------------
@@ -376,7 +385,7 @@
   function _parse(gexf_url){
 
     // Composing Graph
-    return new Graph(__fetch(gexf_url));
+    return Graph(__fetch(gexf_url));
   }
 
   //------------------------------------------------------------------
