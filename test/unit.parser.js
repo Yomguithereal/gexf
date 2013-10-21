@@ -8,48 +8,52 @@
 | Version : 1.0
 */
 
-(function(){
+(function() {
 
   // Helpers
   //---------
 
-  Object.prototype.testBasics = function(basics){
+  Object.prototype.testBasics = function(basics) {
 
     // Root information
     strictEqual(this.version, basics.version, 'Version is retrieved.');
     strictEqual(this.mode, basics.mode, 'Mode is retrieved.');
-    strictEqual(this.defaultEdgeType, basics.defaultEdgeType, 'Default edge type is retrieved.');
+    strictEqual(
+      this.defaultEdgeType,
+      basics.defaultEdgeType,
+      'DefaultEdgeType is retrieved.'
+    );
 
     // Meta
     deepEqual(
-      this.meta,
-      basics.meta,
-      'Meta information is retrieved.'
+        this.meta,
+        basics.meta,
+        'Meta information is retrieved.'
     );
 
     // Model
     deepEqual(
-      this.model.attributes,
-      basics.model,
-      'Model correctly retrieved.'
+        this.model.attributes,
+        basics.model,
+        'Model correctly retrieved.'
     );
 
     // Nodes
     strictEqual(this.nodes.length, basics.nodes_nb, 'All nodes retrieved.');
     deepEqual(
-      this.nodes[basics.node_test.id],
-      basics.node_test.node,
-      'Node test passed.'
+        this.nodes[basics.node_test.id],
+        basics.node_test.node,
+        'Node test passed.'
     );
 
     // Edges
     strictEqual(this.edges.length, basics.edges_nb, 'All edges retrieved.');
     deepEqual(
-      this.edges[basics.edge_test.id],
-      basics.edge_test.edge,
-      'Edge test passed.'
+        this.edges[basics.edge_test.id],
+        basics.edge_test.edge,
+        'Edge test passed.'
     );
-  }
+  };
 
 
   // Tests
@@ -177,16 +181,13 @@
 
 
   // Running actual tests
-  tests.map(function(t){
+  tests.map(function(t) {
 
-    test(t.title, function(){
-      var graph = GexfParser.parse('resources/'+t.gexf+'.gexf');
+    test(t.title, function() {
+      var graph = GexfParser.parse('resources/' + t.gexf + '.gexf');
       console.log(graph);
 
       graph.testBasics(t.basics);
     });
-
   });
-
-
 })();
