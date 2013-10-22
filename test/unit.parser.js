@@ -222,6 +222,39 @@
           }
         }
       }
+    },
+    {
+      title: 'Celegans Graph',
+      gexf: 'celegans',
+      basics: {
+        version: '1.1',
+        mode: 'static',
+        defaultEdgeType: 'undirected',
+        meta: {},
+        model: [],
+        nodes_nb: 306,
+        node_test: {
+          id: 203,
+          node: {
+            id: 281,
+            label: '282',
+            attributes: {},
+            viz: {}
+          }
+        },
+        edges_nb: 2345,
+        edge_test: {
+          id: 1602,
+          edge: {
+            id: 285,
+            label: '',
+            source: 38,
+            target: 302,
+            type: 'undirected',
+            weight: 2
+          }
+        }
+      }
     }
   ];
 

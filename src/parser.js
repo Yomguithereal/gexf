@@ -270,7 +270,7 @@
       label: properties.label || '',
       source: +properties.source,
       target: +properties.target,
-      weight: properties.weight || 1.0
+      weight: +properties.weight || 1.0
     };
   }
 
