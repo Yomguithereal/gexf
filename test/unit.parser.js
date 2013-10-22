@@ -142,9 +142,9 @@
           lastmodifieddate: '2009-03-20'
         },
         model: [
-          {id: 0, title: 'url', type: 'string'},
-          {id: 1, title: 'indegree', type: 'float'},
-          {id: 2, title: 'frog', type: 'boolean', defaultValue: 'true'}
+          {id: '0', title: 'url', type: 'string'},
+          {id: '1', title: 'indegree', type: 'float'},
+          {id: '2', title: 'frog', type: 'boolean', defaultValue: 'true'}
         ],
         nodes_nb: 4,
         node_test: {
@@ -183,9 +183,9 @@
         defaultEdgeType: 'undirected',
         meta: {},
         model: [
-          {id: 0, title: 'nodedef', type: 'string'},
-          {id: 1, title: 'label', type: 'string'},
-          {id: 2, title: 'occurrences', type: 'integer'}
+          {id: '0', title: 'nodedef', type: 'string'},
+          {id: '1', title: 'label', type: 'string'},
+          {id: '2', title: 'occurrences', type: 'integer'}
         ],
         nodes_nb: 1715,
         node_test: {
@@ -251,6 +251,57 @@
             source: 38,
             target: 302,
             type: 'undirected',
+            weight: 2
+          }
+        }
+      }
+    },
+    {
+      title: 'Les Misérables Graph',
+      gexf: 'les_miserables',
+      basics: {
+        version: '1.1',
+        mode: 'static',
+        defaultEdgeType: 'directed',
+        meta: {
+          creator: 'ofNodesAndEdges.com',
+          title: 'Les Misérables, the characters coappearance weighted graph',
+          lastmodifieddate: '2010-05-29+01:27'
+        },
+        model: [
+          {id: 'authority', title: 'Authority', type: 'float'},
+          {id: 'hub', title: 'Hub', type: 'float'}
+        ],
+        nodes_nb: 77,
+        node_test: {
+          id: 5,
+          node: {
+            id: 5,
+            label: 'Geborand',
+            attributes: {
+              authority: 0.0034188034,
+              hub: 0.0034188034
+            },
+            viz: {
+              color: 'rgb(179,0,0)',
+              position: {
+                x: 318.6509,
+                y: 85.41602,
+                z: 0
+              },
+              size: 15
+            }
+          }
+        },
+        edges_nb: 254,
+        edge_test: {
+          id: 200,
+          edge: {
+            id: 198,
+            label: '',
+            source: 66,
+            target: 62,
+            type: 'directed',
             weight: 2
           }
         }

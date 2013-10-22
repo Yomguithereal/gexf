@@ -22,6 +22,8 @@
   function Graph(xml) {
 
     // TODO: Controls GEXF
+    // TODO: Hierarchy and Philogeny
+    // TODO: Dynamics
 
     // Basic Properties
     //
@@ -67,7 +69,7 @@
       var meta_children = __nodeListToArray(_metaElement.childNodes);
 
       meta_children.map(function(child) {
-        metas[child.tagName] = child.textContent;
+        metas[child.tagName.toLowerCase()] = child.textContent;
       });
 
       return metas;
@@ -82,7 +84,7 @@
 
         // Properties
         var properties = {
-          id: +(attr.getAttribute('id') || attr.getAttribute('for')),
+          id: attr.getAttribute('id') || attr.getAttribute('for'),
           type: attr.getAttribute('type') || 'string',
           title: attr.getAttribute('title') || ''
         };
@@ -141,7 +143,7 @@
       // Getting Node Indicated Attributes
       var attvalues_hash = __nodesListToHash(attvalues_elements, function(el) {
         var attributes = __namedNodeMapToObject(el.attributes);
-        var key = +(attributes.id || attributes['for']);
+        var key = attributes.id || attributes['for'];
 
         // Returning object
         return {key: key, value: attributes.value};
@@ -152,7 +154,8 @@
       model.attributes.map(function(attribute) {
 
         // Default value?
-        data[attribute.title] = (!(attribute.id in attvalues_hash) &&
+        var att_title = attribute.title.toLowerCase();
+        data[att_title] = (!(attribute.id in attvalues_hash) &&
             'defaultValue' in attribute) ?
             __enforceType(attribute.type, attribute.defaultValue) :
             __enforceType(attribute.type, attvalues_hash[attribute.id]);
@@ -241,9 +244,6 @@
     };
   }
 
-  // TODO: Remove constructor --> basic objects
-  // --> object return object
-  // Rework graph
 
   // Node Class
   //------------
@@ -368,11 +368,16 @@
   // Fetching GEXF with XHR
   function __fetch(gexf_url) {
 
-    // TODO: Check if really asynchronous
+    // TODO: Decide of an asynchronous policy
     // XHR Request
     var request = window.XMLHttpRequest ?
         new XMLHttpRequest() :
         new ActiveXObject('Microsoft.XMLHTTP');
+
+    // Callback
+    // request.onreadystatechange = function(){
+
+    // }
 
     request.overrideMimeType('text/xml');
     request.open('GET', gexf_url, false);
