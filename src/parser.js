@@ -156,7 +156,7 @@
         // Default value?
         var att_title = attribute.title.toLowerCase();
         data[att_title] = (!(attribute.id in attvalues_hash) &&
-            'defaultValue' in attribute) ?
+          'defaultValue' in attribute) ?
             __enforceType(attribute.type, attribute.defaultValue) :
             __enforceType(attribute.type, attvalues_hash[attribute.id]);
       });
@@ -177,8 +177,8 @@
         });
 
         viz.color = (color[4]) ?
-            'rgba(' + color.join(',') + ')' :
-            'rgb(' + color.slice(0, -1).join(',') + ')';
+          'rgba(' + color.join(',') + ')' :
+          'rgb(' + color.slice(0, -1).join(',') + ')';
       }
 
       // Position
@@ -194,14 +194,14 @@
       }
 
       // Size and Shape
-      var remaining = ['size', 'shape'];
+      var remaining = ['size', 'test'];
       remaining.map(function(t) {
         var element = __getFirstElementByTagNS(node, ['viz', t]);
 
         if (element) {
           viz[t] = (t === 'size') ?
-              +element.getAttribute('value') :
-              element.getAttribute('value');
+            +element.getAttribute('value') :
+            element.getAttribute('value');
         }
       });
 
@@ -280,6 +280,7 @@
   //=========
 
   // Using prototypes was a bad idea, so I chose to make good old functions
+  // TODO: cache length in loops
 
   // Transform a NodeList Object to iterable array
   function __nodeListToArray(nodeList) {
@@ -371,8 +372,8 @@
     // TODO: Decide of an asynchronous policy
     // XHR Request
     var request = window.XMLHttpRequest ?
-        new XMLHttpRequest() :
-        new ActiveXObject('Microsoft.XMLHTTP');
+      new XMLHttpRequest() :
+      new ActiveXObject('Microsoft.XMLHTTP');
 
     // Callback
     // request.onreadystatechange = function(){
