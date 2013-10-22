@@ -59,7 +59,6 @@
   // Tests
   //-------
   var tests = [
-
     {
       title: 'Minimal Graph',
       gexf: 'minimal',
@@ -97,7 +96,6 @@
         }
       }
     },
-
     {
       title: 'Basic Graph',
       gexf: 'yeast',
@@ -131,7 +129,6 @@
         }
       }
     },
-
     {
       title: 'Data Graph',
       gexf: 'data',
@@ -176,6 +173,55 @@
           }
         }
       }
+    },
+    {
+      title: 'Viz Graph',
+      gexf: 'arctic',
+      basics: {
+        version: '1.0',
+        mode: 'static',
+        defaultEdgeType: 'undirected',
+        meta: {},
+        model: [
+          {id: 0, title: 'nodedef', type: 'string'},
+          {id: 1, title: 'label', type: 'string'},
+          {id: 2, title: 'occurrences', type: 'integer'}
+        ],
+        nodes_nb: 1715,
+        node_test: {
+          id: 1100,
+          node: {
+            id: 1102,
+            label: 'Interglacial Period',
+            attributes: {
+              label: 'Interglacial Period',
+              nodedef: 'n1102',
+              occurrences: 3
+            },
+            viz: {
+              color: 'rgb(153,255,255)',
+              position: {
+                x: -31.175037,
+                y: 179.857,
+                z: 0
+              },
+              size: 3.6317973
+            }
+          }
+        },
+        edges_nb: 6676,
+        edge_test: {
+          id: 305,
+          edge: {
+            id: 305,
+            label: '',
+            source: 263,
+            target: 113,
+            type: 'undirected',
+            weight: 1
+          }
+        }
+      }
     }
   ];
 
@@ -185,7 +231,7 @@
 
     test(t.title, function() {
       var graph = GexfParser.parse('resources/' + t.gexf + '.gexf');
-      console.log(graph);
+      console.log(t.title, graph);
 
       graph.testBasics(t.basics);
     });

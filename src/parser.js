@@ -8,7 +8,7 @@
 | Version : 1.0
 */
 
-;(function(undefined) {
+(function(undefined) {
 
   'use strict';
 
