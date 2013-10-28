@@ -6,9 +6,10 @@ module.exports = function(grunt) {
       app:{
         closureLinterPath: '/usr/local/bin',
         src: ['src/parser.js'],
+        command: 'gjslint',
         options: {
           stdout: true,
-          strict: true
+          strict: false
         }
       }
     },
