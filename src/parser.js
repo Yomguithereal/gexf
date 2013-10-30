@@ -114,6 +114,7 @@
     // TODO: Hierarchy and Philogeny
     // TODO: Dynamics
     // TODO: Drop map instructions if performances were to be bad
+    // TODO: dealing with viz on edges tags
 
     // Basic Properties
     //
