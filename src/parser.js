@@ -9,17 +9,106 @@
 */
 
 (function(undefined) {
-
   'use strict';
+
+  // Helpers
+  //=========
+
+  // Using prototypes was a bad idea for cross-browser compatibility
+  // I decided to go back to functions
+
+  var helpers = {
+
+    // Transform a NodeList Object to iterable array
+    nodeListToArray: function(nodeList) {
+
+      // Return array
+      var children = [];
+
+      // Iterating
+      for (var i = 0, len = nodeList.length; i < len; ++i) {
+        if (nodeList[i].nodeName !== '#text')
+          children.push(nodeList[i]);
+      }
+
+      return children;
+    },
+
+    // Transform a NodeList Object into an indexed hash
+    nodeListToHash: function(nodeList, filter) {
+
+      // Return object
+      var children = {};
+
+      // Iterating
+      for (var i = 0; i < nodeList.length; i++) {
+        if (nodeList[i].nodeName !== '#text') {
+          var prop = filter(nodeList[i]);
+          children[prop.key] = prop.value;
+        }
+      }
+
+      return children;
+    },
+
+    // Transform NamedNodeMap into hash of attributes
+    namedNodeMapToObject: function(nodeMap) {
+
+        // Return object
+      var attributes = {};
+
+      // Iterating
+      for (var i = 0; i < nodeMap.length; i++) {
+        attributes[nodeMap[i].name] = nodeMap[i].value;
+      }
+
+      return attributes;
+    },
+
+    // Get first el by namespaced tag name
+    getFirstElementByTagNS: function(node, ns_tag) {
+      var el = node.getElementsByTagName(ns_tag[1])[0];
+
+      if (!el)
+        el = node.getElementsByTagNameNS(ns_tag[0], ns_tag[1])[0];
+
+      if (!el)
+        el = node.getElementsByTagName(ns_tag.join(':'))[0];
+
+      return el;
+    },
+
+    // Type Enforcing
+    enforceType: function(type, value) {
+
+      switch (type) {
+        case 'boolean':
+          value = (value === 'true');
+          break;
+
+        case 'integer':
+        case 'long':
+        case 'float':
+        case 'double':
+          value = +value;
+          break;
+      }
+
+      return value;
+    }
+
+  };
+
 
   //------------------------------------------------------------------
 
-  // Classes
-  //=========
 
-  // Graph Class
-  //-------------
-  function Graph(xml) {
+  // Structures
+  //============
+
+  // Graph Struct
+  //--------------
+  function graph(xml) {
 
     // TODO: Controls GEXF
     // TODO: Hierarchy and Philogeny
@@ -27,46 +116,45 @@
 
     // Basic Properties
     //
-    var _rootElement = xml.getElementsByTagName('gexf')[0];
-    var _graphElement = xml.getElementsByTagName('graph')[0];
-    var _metaElement = xml.getElementsByTagName('meta')[0];
-    var _modelElements = xml.getElementsByTagName('attribute');
-    var _nodesElements = xml.getElementsByTagName('node');
-    var _edgesElements = xml.getElementsByTagName('edge');
+    var _root_el = xml.getElementsByTagName('gexf')[0];
+    var _graph_el = xml.getElementsByTagName('graph')[0];
+    var _meta_el = xml.getElementsByTagName('meta')[0];
+    var _model_els = xml.getElementsByTagName('attribute');
+    var _node_els = xml.getElementsByTagName('node');
+    var _edge_els = xml.getElementsByTagName('edge');
 
-    var _hasViz = _rootElement.getAttribute('xmlns:viz') !== null;
+    var _hasViz = _root_el.getAttribute('xmlns:viz') !== null;
 
     // Parser Functions
     //
 
     // Graph Version
     function _version() {
-      return _rootElement.getAttribute('version') || '1.0';
+      return _root_el.getAttribute('version') || '1.0';
     }
 
     // Graph Mode
     function _mode() {
-      return _graphElement.getAttribute('mode') || 'static';
+      return _graph_el.getAttribute('mode') || 'static';
     }
 
     // Default Edge Type
     function _defaultEdgeType() {
-      return _graphElement.getAttribute('defaultedgetype') || 'undirected';
+      return _graph_el.getAttribute('defaultedgetype') || 'undirected';
     }
 
     // Meta Data
     function _metaData() {
 
       var metas = {};
-      if (!_metaElement) {
+      if (!_meta_el)
         return metas;
-      }
 
       // Last modified date
-      metas.lastmodifieddate = _metaElement.getAttribute('lastmodifieddate');
+      metas.lastmodifieddate = _meta_el.getAttribute('lastmodifieddate');
 
       // Other information
-      var meta_children = __nodeListToArray(_metaElement.childNodes);
+      var meta_children = helpers.nodeListToArray(_meta_el.childNodes);
 
       meta_children.map(function(child) {
         metas[child.tagName.toLowerCase()] = child.textContent;
@@ -80,7 +168,7 @@
       var attributes = [];
 
       // Iterating through attributes
-      __nodeListToArray(_modelElements).map(function(attr) {
+      helpers.nodeListToArray(_model_els).map(function(attr) {
 
         // Properties
         var properties = {
@@ -90,11 +178,10 @@
         };
 
         // Getting default
-        var default_element = __nodeListToArray(attr.childNodes);
+        var default_el = helpers.nodeListToArray(attr.childNodes);
 
-        if (default_element.length > 0) {
-          properties.defaultValue = default_element[0].textContent;
-        }
+        if (default_el.length > 0)
+          properties.defaultValue = default_el[0].textContent;
 
         // Creating attribute
         attributes.push(properties);
@@ -110,25 +197,23 @@
       var nodes = [];
 
       // Iteration through nodes
-      __nodeListToArray(_nodesElements).map(function(node) {
+      helpers.nodeListToArray(_node_els).map(function(n) {
 
         // Basic properties
         var properties = {
-          id: node.getAttribute('id'),
-          label: node.getAttribute('label') || ''
+          id: n.getAttribute('id'),
+          label: n.getAttribute('label') || ''
         };
 
         // Retrieving data from nodes if any
-        if (model.attributes.length > 0) {
-          properties.attributes = _nodeData(model, node);
-        }
+        if (model.attributes.length > 0)
+          properties.attributes = _nodeData(model, n);
 
         // Retrieving viz information
-        if (_hasViz) {
-          properties.viz = _nodeViz(node);
-        }
+        if (_hasViz)
+          properties.viz = _nodeViz(n);
 
-        nodes.push(Node(properties));
+        nodes.push(node(properties));
       });
 
       return nodes;
@@ -138,11 +223,11 @@
     function _nodeData(model, node) {
 
       var data = {};
-      var attvalues_elements = node.getElementsByTagName('attvalue');
+      var attvalues_els = node.getElementsByTagName('attvalue');
 
       // Getting Node Indicated Attributes
-      var attvalues_hash = __nodesListToHash(attvalues_elements, function(el) {
-        var attributes = __namedNodeMapToObject(el.attributes);
+      var ah = helpers.nodeListToHash(attvalues_els, function(el) {
+        var attributes = helpers.namedNodeMapToObject(el.attributes);
         var key = attributes.id || attributes['for'];
 
         // Returning object
@@ -151,14 +236,14 @@
 
 
       // Iterating through model
-      model.attributes.map(function(attribute) {
+      model.attributes.map(function(a) {
 
         // Default value?
-        var att_title = attribute.title.toLowerCase();
-        data[att_title] = (!(attribute.id in attvalues_hash) &&
-          'defaultValue' in attribute) ?
-            __enforceType(attribute.type, attribute.defaultValue) :
-            __enforceType(attribute.type, attvalues_hash[attribute.id]);
+        var att_title = a.title.toLowerCase();
+        data[att_title] = !(a.id in ah) && 'defaultValue' in a ?
+          helpers.enforceType(a.type, a.defaultValue) :
+          helpers.enforceType(a.type, ah[a.id]);
+
       });
 
       return data;
@@ -169,11 +254,11 @@
       var viz = {};
 
       // Color
-      var color_element = __getFirstElementByTagNS(node, ['viz', 'color']);
+      var color_el = helpers.getFirstElementByTagNS(node, ['viz', 'color']);
 
-      if (color_element) {
+      if (color_el) {
         var color = ['r', 'g', 'b', 'a'].map(function(c) {
-          return color_element.getAttribute(c);
+          return color_el.getAttribute(c);
         });
 
         viz.color = (color[4]) ?
@@ -183,27 +268,25 @@
 
       // Position
       var pos_tag = ['viz', 'position'];
-      var position_element = __getFirstElementByTagNS(node, pos_tag);
+      var position_el = helpers.getFirstElementByTagNS(node, pos_tag);
 
-      if (position_element) {
+      if (position_el) {
         viz.position = {};
 
         ['x', 'y', 'z'].map(function(p) {
-          viz.position[p] = +position_element.getAttribute(p);
+          viz.position[p] = +position_el.getAttribute(p);
         });
       }
 
-      // Size and Shape
-      var remaining = ['size', 'test'];
-      remaining.map(function(t) {
-        var element = __getFirstElementByTagNS(node, ['viz', t]);
+      // Size
+      var size_el = helpers.getFirstElementByTagNS(node, ['viz', 'size']);
+      if (size_el)
+        viz.size = +size_el.getAttribute('value');
 
-        if (element) {
-          viz[t] = (t === 'size') ?
-            +element.getAttribute('value') :
-            element.getAttribute('value');
-        }
-      });
+      // Shape
+      var shape_el = helpers.getFirstElementByTagNS(node, ['viz', 'shape']);
+      if (shape_el)
+        viz.shape = shape_el.getAttribute('value');
 
       return viz;
     }
@@ -213,15 +296,15 @@
       var edges = [];
 
       // Iteration through edges
-      __nodeListToArray(_edgesElements).map(function(edge) {
+      helpers.nodeListToArray(_edge_els).map(function(e) {
 
         // Creating the edge
-        var properties = __namedNodeMapToObject(edge.attributes);
+        var properties = helpers.namedNodeMapToObject(e.attributes);
         if (!('type' in properties)) {
           properties.type = default_type;
         }
 
-        edges.push(Edge(properties));
+        edges.push(edge(properties));
       });
 
       return edges;
@@ -245,9 +328,9 @@
   }
 
 
-  // Node Class
-  //------------
-  function Node(properties) {
+  // Node Struct
+  //-------------
+  function node(properties) {
 
     // Possible Properties
     return {
@@ -259,9 +342,9 @@
   }
 
 
-  // Edge Class
-  //------------
-  function Edge(properties) {
+  // Edge Struct
+  //-------------
+  function edge(properties) {
 
     // Possible Properties
     return {
@@ -274,100 +357,15 @@
     };
   }
 
-  //------------------------------------------------------------------
-
-  // Helpers
-  //=========
-
-  // Using prototypes was a bad idea, so I chose to make good old functions
-  // TODO: cache length in loops
-
-  // Transform a NodeList Object to iterable array
-  function __nodeListToArray(nodeList) {
-
-    // Return array
-    var children = [];
-
-    // Iterating
-    for (var i = 0; i < nodeList.length; i++) {
-      if (nodeList[i].nodeName !== '#text') {
-        children.push(nodeList[i]);
-      }
-    }
-
-    return children;
-  }
-
-  // Transform a NodeList Object into an indexed hash
-  function __nodesListToHash(nodeList, filter) {
-
-    // Return object
-    var children = {};
-
-    // Iterating
-    for (var i = 0; i < nodeList.length; i++) {
-      if (nodeList[i].nodeName !== '#text') {
-        var prop = filter(nodeList[i]);
-        children[prop.key] = prop.value;
-      }
-    }
-
-    return children;
-  }
-
-  // Transform NamedNodeMap into hash of attributes
-  function __namedNodeMapToObject(nodeMap) {
-
-    // Return object
-    var attributes = {};
-
-    // Iterating
-    for (var i = 0; i < nodeMap.length; i++) {
-      attributes[nodeMap[i].name] = nodeMap[i].value;
-    }
-
-    return attributes;
-  }
-
-  // Get first element by namespaced tag name
-  function __getFirstElementByTagNS(node, ns_tag) {
-    var element = node.getElementsByTagName(ns_tag[1])[0];
-
-    if (!element)
-      element = node.getElementsByTagNameNS(ns_tag[0], ns_tag[1])[0];
-
-    if (!element)
-      element = node.getElementsByTagName(ns_tag.join(':'))[0];
-
-    return element;
-  }
-
-  // Type Enforcing
-  function __enforceType(type, value) {
-
-    switch (type) {
-      case 'boolean':
-        value = (value === 'true');
-        break;
-
-      case 'integer':
-      case 'long':
-      case 'float':
-      case 'double':
-        value = +value;
-        break;
-    }
-
-    return value;
-  }
 
   //------------------------------------------------------------------
+
 
   // Inner Functions
   //=================
 
   // Fetching GEXF with XHR
-  function __fetch(gexf_url) {
+  function _fetch(gexf_url) {
 
     // TODO: Decide of an asynchronous policy
     // XHR Request
@@ -393,10 +391,12 @@
   function _parse(gexf_url) {
 
     // Composing Graph
-    return Graph(__fetch(gexf_url));
+    return graph(_fetch(gexf_url));
   }
 
+
   //------------------------------------------------------------------
+
 
   // Public API
   //============
