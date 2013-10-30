@@ -113,6 +113,7 @@
     // TODO: Controls GEXF
     // TODO: Hierarchy and Philogeny
     // TODO: Dynamics
+    // TODO: Drop map instructions if performances were to be bad
 
     // Basic Properties
     //
