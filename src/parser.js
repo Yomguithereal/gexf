@@ -336,7 +336,7 @@
 
     // Possible Properties
     return {
-      id: +properties.id,
+      id: properties.id,
       label: properties.label,
       attributes: properties.attributes || {},
       viz: properties.viz || {}
@@ -350,11 +350,11 @@
 
     // Possible Properties
     return {
-      id: +properties.id,
+      id: properties.id,
       type: properties.type || 'undirected',
       label: properties.label || '',
-      source: +properties.source,
-      target: +properties.target,
+      source: properties.source,
+      target: properties.target,
       weight: +properties.weight || 1.0
     };
   }

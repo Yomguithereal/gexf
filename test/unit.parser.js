@@ -76,7 +76,7 @@
         node_test: {
           id: 0,
           node: {
-            id: 0,
+            id: '0',
             label: 'Hello',
             attributes: {},
             viz: {}
@@ -86,10 +86,10 @@
         edge_test: {
           id: 0,
           edge: {
-            id: 0,
+            id: '0',
             label: '',
-            source: 0,
-            target: 1,
+            source: '0',
+            target: '1',
             type: 'directed',
             weight: 1
           }
@@ -110,7 +110,7 @@
           id: 502,
           node: {
             attributes: {},
-            id: 5443,
+            id: '5443',
             label: 'YDR283C',
             viz: {}
           }
@@ -119,10 +119,10 @@
         edge_test: {
           id: 1300,
           edge: {
-            id: 14488,
+            id: '14488',
             label: '',
-            source: 5096,
-            target: 6882,
+            source: '5096',
+            target: '6882',
             type: 'undirected',
             weight: 1
           }
@@ -150,7 +150,7 @@
         node_test: {
           id: 1,
           node: {
-            id: 1,
+            id: '1',
             label: 'Webatlas',
             attributes: {
               frog: true,
@@ -164,10 +164,10 @@
         edge_test: {
           id: 3,
           edge: {
-            id: 3,
+            id: '3',
             label: '',
-            source: 2,
-            target: 1,
+            source: '2',
+            target: '1',
             type: 'directed',
             weight: 1
           }
@@ -191,7 +191,7 @@
         node_test: {
           id: 1100,
           node: {
-            id: 1102,
+            id: '1102',
             label: 'Interglacial Period',
             attributes: {
               label: 'Interglacial Period',
@@ -213,10 +213,10 @@
         edge_test: {
           id: 305,
           edge: {
-            id: 305,
+            id: '305',
             label: '',
-            source: 263,
-            target: 113,
+            source: '263',
+            target: '113',
             type: 'undirected',
             weight: 1
           }
@@ -236,7 +236,7 @@
         node_test: {
           id: 203,
           node: {
-            id: 281,
+            id: '281',
             label: '282',
             attributes: {},
             viz: {}
@@ -246,10 +246,10 @@
         edge_test: {
           id: 1602,
           edge: {
-            id: 285,
+            id: '285',
             label: '',
-            source: 38,
-            target: 302,
+            source: '38',
+            target: '302',
             type: 'undirected',
             weight: 2
           }
@@ -276,7 +276,7 @@
         node_test: {
           id: 5,
           node: {
-            id: 5,
+            id: '5.0',
             label: 'Geborand',
             attributes: {
               authority: 0.0034188034,
@@ -297,10 +297,10 @@
         edge_test: {
           id: 200,
           edge: {
-            id: 198,
+            id: '198',
             label: '',
-            source: 66,
-            target: 62,
+            source: '66.0',
+            target: '62.0',
             type: 'directed',
             weight: 2
           }
