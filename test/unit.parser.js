@@ -314,11 +314,9 @@
   tests.map(function(t) {
 
     asyncTest(t.title, function() {
-      GexfParser.parse(
+      GexfParser.fetch(
         'resources/' + t.gexf + '.gexf',
         function(graph) {
-          console.log(t.title, graph);
-
           start();
           graph.testBasics(t.basics);
         }
@@ -327,14 +325,51 @@
   });
 
   module('API');
-  asyncTest('GexfParser.parse', function() {
+  asyncTest('GexfParser.fetch', function() {
     var g2,
-        g1 = GexfParser.parse('resources/minimal.gexf');
+        g1 = GexfParser.fetch('resources/minimal.gexf');
 
-    GexfParser.parse('resources/minimal.gexf', function(graph) {
+    GexfParser.fetch('resources/minimal.gexf', function(graph) {
       g2 = graph;
       start();
-      deepEqual(g1, g2, 'GexfParser.parse works the same in both sync and async modes.');
+      deepEqual(g1, g2, 'GexfParser.fetch works the same in both sync and async modes.');
     });
+  });
+  test('GexfParser.parse', function() {
+    var xhr = (function() {
+      if (window.XMLHttpRequest)
+        return new XMLHttpRequest();
+
+      var names,
+          i;
+
+      if (window.ActiveXObject) {
+        names = [
+          'Msxml2.XMLHTTP.6.0',
+          'Msxml2.XMLHTTP.3.0',
+          'Msxml2.XMLHTTP',
+          'Microsoft.XMLHTTP'
+        ];
+
+        for (i in names)
+          try {
+            return new ActiveXObject(names[i]);
+          } catch (e) {}
+      }
+
+      return null;
+    })();
+
+    if (!xhr)
+      throw 'XMLHttpRequest not supported, cannot load the file.';
+
+    xhr.overrideMimeType('text/xml');
+    xhr.open('GET', 'resources/minimal.gexf', false);
+    xhr.send();
+
+    var gexf = xhr.responseXML,
+        graph = GexfParser.parse(gexf);
+
+    graph.testBasics(tests[0].basics);
   });
 })();

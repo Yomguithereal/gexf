@@ -418,8 +418,12 @@
   }
 
   // Parsing the GEXF File
-  // TODO: parse xml or url
-  function _parse(gexf_url, callback) {
+  function _parse(gexf) {
+    return graph(gexf);
+  }
+
+  // Fetch and parse the GEXF File
+  function _fetchAndParse(gexf_url, callback) {
     if (typeof callback === 'function') {
       return _fetch(gexf_url, function(gexf) {
         callback(graph(gexf));
@@ -438,6 +442,7 @@
 
     // Functions
     parse: _parse,
+    fetch: _fetchAndParse,
 
     // Version
     version: '0.1'
