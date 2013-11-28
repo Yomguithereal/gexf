@@ -309,15 +309,32 @@
     }
   ];
 
-
   // Running actual tests
+  module('Parser');
   tests.map(function(t) {
 
-    test(t.title, function() {
-      var graph = GexfParser.parse('resources/' + t.gexf + '.gexf');
-      console.log(t.title, graph);
+    asyncTest(t.title, function() {
+      GexfParser.parse(
+        'resources/' + t.gexf + '.gexf',
+        function(graph) {
+          console.log(t.title, graph);
 
-      graph.testBasics(t.basics);
+          start();
+          graph.testBasics(t.basics);
+        }
+      );
+    });
+  });
+
+  module('API');
+  asyncTest('GexfParser.parse', function() {
+    var g2,
+        g1 = GexfParser.parse('resources/minimal.gexf');
+
+    GexfParser.parse('resources/minimal.gexf', function(graph) {
+      g2 = graph;
+      start();
+      deepEqual(g1, g2, 'GexfParser.parse works the same in both sync and async modes.');
     });
   });
 })();
