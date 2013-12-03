@@ -9,7 +9,8 @@ module.exports = function(grunt) {
         command: 'gjslint',
         options: {
           stdout: true,
-          strict: false
+          strict: false,
+          opt: '--disable 6,13'
         }
       }
     },

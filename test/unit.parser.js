@@ -33,7 +33,7 @@
 
     // Model
     deepEqual(
-        this.model.attributes,
+        this.model,
         basics.model,
         'Model correctly retrieved.'
     );
