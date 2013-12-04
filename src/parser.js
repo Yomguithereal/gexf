@@ -92,6 +92,11 @@
       }
 
       return value;
+    },
+    getRGB: function(values) {
+      return (values[3]) ?
+        'rgba(' + values.join(',') + ')' :
+        'rgb(' + values.slice(0, -1).join(',') + ')';
     }
   };
 
@@ -110,7 +115,7 @@
    * @param  {object} properties The node properties.
    * @return {object}            The guarded node object.
    */
-  function node(properties) {
+  function Node(properties) {
 
     // Possible Properties
     return {
@@ -129,7 +134,7 @@
    * @param  {object} properties The edge properties.
    * @return {object}            The guarded edge object.
    */
-  function edge(properties) {
+  function Edge(properties) {
 
     // Possible Properties
     return {
@@ -138,7 +143,8 @@
       label: properties.label || '',
       source: properties.source,
       target: properties.target,
-      weight: +properties.weight || 1.0
+      weight: +properties.weight || 1.0,
+      viz: properties.viz || {}
     };
   }
 
@@ -150,7 +156,7 @@
    * @param  {string} xml The xml string of the gexf file to parse.
    * @return {object}     The parsed graph.
    */
-  function graph(xml) {
+  function Graph(xml) {
     var _xml = {};
 
     // Basic Properties
@@ -164,7 +170,7 @@
       edges: xml.getElementsByTagName('edge')
     };
 
-    _xml.hasViz = _xml.els.root.getAttribute('xmlns:viz') !== null;
+    _xml.hasViz = !!_xml.els.root.getAttribute('xmlns:viz');
     _xml.version = _xml.els.root.getAttribute('version') || '1.0';
     _xml.mode = _xml.els.graph.getAttribute('mode') || 'static';
 
@@ -242,7 +248,7 @@
           properties.viz = _nodeViz(n);
 
         // Pushing node
-        nodes.push(node(properties));
+        nodes.push(Node(properties));
       });
 
       return nodes;
@@ -290,9 +296,7 @@
           return color_el.getAttribute(c);
         });
 
-        viz.color = (color[4]) ?
-          'rgba(' + color.join(',') + ')' :
-          'rgb(' + color.slice(0, -1).join(',') + ')';
+        viz.color = _helpers.getRGB(color);
       }
 
       // Position
@@ -332,10 +336,42 @@
           properties.type = default_type;
         }
 
-        edges.push(edge(properties));
+        // Retrieving viz information
+        if (_xml.hasViz)
+          properties.viz = _edgeViz(e);
+
+        edges.push(Edge(properties));
       });
 
       return edges;
+    }
+
+    // Viz information from edges
+    function _edgeViz(edge) {
+      var viz = {};
+
+      // Color
+      var color_el = _helpers.getFirstElementByTagNS(edge, 'viz', 'color');
+
+      if (color_el) {
+        var color = ['r', 'g', 'b', 'a'].map(function(c) {
+          return color_el.getAttribute(c);
+        });
+
+        viz.color = _helpers.getRGB(color);
+      }
+
+      // Shape
+      var shape_el = _helpers.getFirstElementByTagNS(edge, 'viz', 'shape');
+      if (shape_el)
+        viz.shape = shape_el.getAttribute('value');
+
+      // Thickness
+      var thick_el = _helpers.getFirstElementByTagNS(edge, 'viz', 'thickness');
+      if (thick_el)
+        viz.thickness = +thick_el.getAttribute('value');
+
+      return viz;
     }
 
 
@@ -414,17 +450,17 @@
 
   // Parsing the GEXF File
   function parse(gexf) {
-    return graph(gexf);
+    return Graph(gexf);
   }
 
   // Fetch and parse the GEXF File
   function fetchAndParse(gexf_url, callback) {
     if (typeof callback === 'function') {
       return fetch(gexf_url, function(gexf) {
-        callback(graph(gexf));
+        callback(Graph(gexf));
       });
     } else
-      return graph(fetch(gexf_url));
+      return Graph(fetch(gexf_url));
   }
 
 

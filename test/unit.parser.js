@@ -91,7 +91,8 @@
             source: '0',
             target: '1',
             type: 'directed',
-            weight: 1
+            weight: 1,
+            viz: {}
           }
         }
       }
@@ -124,7 +125,8 @@
             source: '5096',
             target: '6882',
             type: 'undirected',
-            weight: 1
+            weight: 1,
+            viz: {}
           }
         }
       }
@@ -169,7 +171,8 @@
             source: '2',
             target: '1',
             type: 'directed',
-            weight: 1
+            weight: 1,
+            viz: {}
           }
         }
       }
@@ -218,7 +221,8 @@
             source: '263',
             target: '113',
             type: 'undirected',
-            weight: 1
+            weight: 1,
+            viz: {}
           }
         }
       }
@@ -251,7 +255,8 @@
             source: '38',
             target: '302',
             type: 'undirected',
-            weight: 2
+            weight: 2,
+            viz: {}
           }
         }
       }
@@ -302,7 +307,64 @@
             source: '66.0',
             target: '62.0',
             type: 'directed',
-            weight: 2
+            weight: 2,
+            viz: {}
+          }
+        }
+      }
+    },
+    {
+      title: 'Edge Viz Graph',
+      gexf: 'edge_viz',
+      basics: {
+        version: '1.1',
+        mode: 'static',
+        defaultEdgeType: 'directed',
+        meta: {
+          creator: 'Yomguithereal',
+          title: 'An edge viz test graph',
+          lastmodifieddate: '2010-05-29+01:27'
+        },
+        model: [
+          {id: 'authority', title: 'Authority', type: 'float'},
+          {id: 'hub', title: 'Hub', type: 'float'}
+        ],
+        nodes_nb: 2,
+        node_test: {
+          id: 0,
+          node: {
+            id: '0.0',
+            label: 'Myriel',
+            attributes: {
+              authority: 0.01880342,
+              hub: 0.01880342
+            },
+            viz: {
+              color: 'rgb(216,72,45)',
+              position: {
+                x: 268.72385,
+                y: 91.18155,
+                z: 0
+              },
+              size: 22.714287
+            }
+          }
+        },
+        edges_nb: 1,
+        edge_test: {
+          id: 0,
+          edge: {
+            id: '0',
+            label: '',
+            source: '1.0',
+            target: '0.0',
+            type: 'directed',
+            weight: 1,
+            viz: {
+              color: 'rgba(179,0,0,0.5)',
+              thickness: 2,
+              shape: 'dotted'
+            }
           }
         }
       }
