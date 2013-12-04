@@ -359,11 +359,11 @@
    * Public API
    * -----------
    *
-   * Users-accessible functions.
+   * User-accessible functions.
    */
 
   // Fetching GEXF with XHR
-  function _fetch(gexf_url, callback) {
+  function fetch(gexf_url, callback) {
     var xhr = (function() {
       if (window.XMLHttpRequest)
         return new XMLHttpRequest();
@@ -413,18 +413,18 @@
   }
 
   // Parsing the GEXF File
-  function _parse(gexf) {
+  function parse(gexf) {
     return graph(gexf);
   }
 
   // Fetch and parse the GEXF File
-  function _fetchAndParse(gexf_url, callback) {
+  function fetchAndParse(gexf_url, callback) {
     if (typeof callback === 'function') {
-      return _fetch(gexf_url, function(gexf) {
+      return fetch(gexf_url, function(gexf) {
         callback(graph(gexf));
       });
     } else
-      return graph(_fetch(gexf_url));
+      return graph(fetch(gexf_url));
   }
 
 
@@ -435,8 +435,8 @@
   this.GexfParser = {
 
     // Functions
-    parse: _parse,
-    fetch: _fetchAndParse,
+    parse: parse,
+    fetch: fetchAndParse,
 
     // Version
     version: '0.1'
