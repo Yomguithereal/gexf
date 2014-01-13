@@ -6,6 +6,8 @@ This parser is designed to fetch a remote .gexf file and parse it into a javascr
 ##Usage
 The GexfParser can be used either to fetch and parse the .gexf file or just to parse it if you want to fetch it by your own means. The parser adds a GexfParser variable to your global scope so you can use it.
 
+
+**Fetching and parsing**
 ```js
 // Synchronously fetch the gexf and parse it
 var gexf = GexfParser.fetch('/url/to/file.gexf');
@@ -14,9 +16,16 @@ var gexf = GexfParser.fetch('/url/to/file.gexf');
 GexfParser.fetch('/url/to/file.gexf', function(gexf) {
     console.log(gexf);
 });
+```
 
-// Just parse a gexf string
-var gexf = GexfParser.parse(gexf_string);
+**Parsing only**
+If you want to fetch the gexf yourself, you can still parse the graph by providing a javascript DOM object to the parser (an ajax XML response or a parsed string, for instance). 
+```js
+// Converting a string to a DOM object
+var gexf_dom = new DOMParser().parseFromString(gexf_string, "application/xml");
+
+// Parsing the gexf
+var gexf = GexfParser.parse(gexf_dom);
 ```
 
 ##Output Data Model
