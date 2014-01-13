@@ -425,7 +425,8 @@
     if (!xhr)
       throw 'XMLHttpRequest not supported, cannot load the file.';
 
-    xhr.overrideMimeType('text/xml');
+    if (xhr.overrideMimeType)
+      xhr.overrideMimeType('text/xml');
     xhr.open('GET', 'resources/minimal.gexf', false);
     xhr.send();
 
