@@ -22,7 +22,7 @@ var gexf = GexfParser.parse(gexf_string);
 ##Output Data Model
 The following example shows what the parser is able to output given a gexf file.
 
-```json
+```
 {
     version "1.0.1",
     meta: {
