@@ -32,9 +32,9 @@ var gexf = GexfParser.parse(gexf_dom);
 ##Output Data Model
 The following example shows what the parser is able to output given a gexf file.
 
-```
+```js
 {
-    version "1.0.1",
+    version: "1.0.1",
     meta: {
         creator: "Yomguithereal",
         lastmodifieddate: "2010-05-29+01:27",
