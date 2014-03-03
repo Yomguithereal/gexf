@@ -1,7 +1,7 @@
 #Gexf-Parser
 
 ##Description
-This parser is designed to fetch a remote .gexf file and parse it into a javascript object for later manipulation. It was developed to be used with [sigma 1.0.0 version](https://github.com/jacomyal/sigma.js/tree/draft-v1.0.0) and can be compiled as a [sigma plugin](https://github.com/jacomyal/sigma.js/tree/draft-v1.0.0/plugins/sigma.parsers.gexf).
+This parser is designed to fetch a remote .gexf file and parse it into a javascript object for later manipulation. It was developed to be used with [sigma 1.0.0 version](https://github.com/jacomyal/sigma.js) and can be compiled as a [sigma plugin](https://github.com/jacomyal/sigma.js/tree/master/plugins/sigma.parsers.gexf).
 
 ##Usage
 The GexfParser can be used either to fetch and parse the .gexf file or just to parse it if you want to fetch it by your own means. The parser adds a GexfParser variable to your global scope so you can use it.
@@ -29,7 +29,17 @@ var gexf_dom = new DOMParser().parseFromString(gexf_string, "application/xml");
 var gexf = GexfParser.parse(gexf_dom);
 ```
 
-##Output Data Model
+## Build
+If you want to build the minify version, clone this repo and launch the uglify grunt task.
+
+```bash
+git clone git@github.com:Yomguithereal/gexf-parser.git
+cd gexf-parser
+npm install
+grunt uglify
+```
+
+## Output Data
 The following example shows what the parser is able to output given a gexf file.
 
 ```
@@ -107,10 +117,12 @@ The following example shows what the parser is able to output given a gexf file.
 ##Contribution
 Please feel free to contribute. To set up the dev environment you should have **nodejs**, **npm** and **grunt** installed.
 
+Also, to lint the files, you need [gjslint](https://developers.google.com/closure/utilities/docs/linter_howto?hl=fr).
+
 ```bash
 git clone git@github.com:Yomguithereal/gexf-parser.git
 cd gexf-parser
 npm install
 ```
 
-Be sure to add relevant unit tests and pass the linter before submitting any change to the parser. The default grunt command will lint the files, run the tests and minify the code into *build/gexf-parser.min.js*.
+Be sure to add relevant unit tests and pass the linter before submitting any change to the parser. The default grunt command will lint the files, run the tests and minify the code into `build/gexf-parser.min.js`.
