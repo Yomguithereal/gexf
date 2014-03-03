@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Yomguithereal/gexf-parser.png)](https://travis-ci.org/Yomguithereal/gexf-parser)
+
 #Gexf-Parser
 
 ##Description

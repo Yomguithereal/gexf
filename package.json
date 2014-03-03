@@ -28,5 +28,8 @@
     "grunt-contrib-uglify": "~0.2.2",
     "grunt-closure-linter": "0.1.4",
     "grunt-contrib-jshint": "~0.7.1"
+  },
+  "scripts": {
+    "test": "grunt travis"
   }
 }
