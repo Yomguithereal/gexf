@@ -490,6 +490,10 @@
    * Exporting
    * ----------
    */
+  if (typeof this.GexfParser !== 'undefined')
+    throw 'GexfParser: error - a variable called "GexfParser" already ' +
+          'exists in the global scope';
+
   this.GexfParser = {
 
     // Functions
