@@ -42,7 +42,7 @@ grunt uglify
 ## Output Data
 The following example shows what the parser is able to output given a gexf file.
 
-```
+```js
 {
   version "1.0.1",
   meta: {
