@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "A gexf file parser for javascript.",
   "homepage": "http://github.com/Yomguithereal/gexf-parser",
-  "main": "src/parser.js",
+  "main": "index.js",
   "keywords": [
     "parser"
   ],
@@ -31,5 +31,8 @@
   },
   "scripts": {
     "test": "grunt travis"
+  },
+  "dependencies": {
+    "xmldom": "~0.1.19"
   }
 }

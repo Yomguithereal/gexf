@@ -503,4 +503,7 @@
     // Version
     version: '0.1.0'
   };
+
+  if (typeof exports !== 'undefined' && this.exports !== exports)
+    module.exports = this.GexfParser;
 }).call(this);
