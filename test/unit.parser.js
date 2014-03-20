@@ -26,32 +26,39 @@
 
     // Meta
     deepEqual(
-        this.meta,
-        basics.meta,
-        'Meta information is retrieved.'
+      this.meta,
+      basics.meta,
+      'Meta information is retrieved.'
     );
 
-    // Model
+    // Node Model
     deepEqual(
-        this.model,
-        basics.model,
-        'Model correctly retrieved.'
+      this.model.node,
+      basics.model,
+      'Node model correctly retrieved.'
+    );
+
+    // Edge Model
+    deepEqual(
+      this.model.edge,
+      basics.edgeModel,
+      'Edge model correctly retrieved.'
     );
 
     // Nodes
     strictEqual(this.nodes.length, basics.nodes_nb, 'All nodes retrieved.');
     deepEqual(
-        this.nodes[basics.node_test.id],
-        basics.node_test.node,
-        'Node test passed.'
+      this.nodes[basics.node_test.id],
+      basics.node_test.node,
+      'Node test passed.'
     );
 
     // Edges
     strictEqual(this.edges.length, basics.edges_nb, 'All edges retrieved.');
     deepEqual(
-        this.edges[basics.edge_test.id],
-        basics.edge_test.edge,
-        'Edge test passed.'
+      this.edges[basics.edge_test.id],
+      basics.edge_test.edge,
+      'Edge test passed.'
     );
   };
 
@@ -72,6 +79,7 @@
           lastmodifieddate: '2009-03-20'
         },
         model: [],
+        edgeModel: [],
         nodes_nb: 2,
         node_test: {
           id: 0,
@@ -88,6 +96,7 @@
           edge: {
             id: '0',
             label: '',
+            attributes: {},
             source: '0',
             target: '1',
             type: 'directed',
@@ -106,6 +115,7 @@
         defaultEdgeType: 'undirected',
         meta: {},
         model: [],
+        edgeModel: [],
         nodes_nb: 2361,
         node_test: {
           id: 502,
@@ -122,6 +132,7 @@
           edge: {
             id: '14488',
             label: '',
+            attributes: {},
             source: '5096',
             target: '6882',
             type: 'undirected',
@@ -148,6 +159,7 @@
           {id: '1', title: 'indegree', type: 'float'},
           {id: '2', title: 'frog', type: 'boolean', defaultValue: 'true'}
         ],
+        edgeModel: [],
         nodes_nb: 4,
         node_test: {
           id: 1,
@@ -168,6 +180,7 @@
           edge: {
             id: '3',
             label: '',
+            attributes: {},
             source: '2',
             target: '1',
             type: 'directed',
@@ -190,6 +203,7 @@
           {id: '1', title: 'label', type: 'string'},
           {id: '2', title: 'occurrences', type: 'integer'}
         ],
+        edgeModel: [],
         nodes_nb: 1715,
         node_test: {
           id: 1100,
@@ -218,6 +232,7 @@
           edge: {
             id: '305',
             label: '',
+            attributes: {},
             source: '263',
             target: '113',
             type: 'undirected',
@@ -236,6 +251,7 @@
         defaultEdgeType: 'undirected',
         meta: {},
         model: [],
+        edgeModel: [],
         nodes_nb: 306,
         node_test: {
           id: 203,
@@ -252,6 +268,7 @@
           edge: {
             id: '285',
             label: '',
+            attributes: {},
             source: '38',
             target: '302',
             type: 'undirected',
@@ -277,6 +294,7 @@
           {id: 'authority', title: 'Authority', type: 'float'},
           {id: 'hub', title: 'Hub', type: 'float'}
         ],
+        edgeModel: [],
         nodes_nb: 77,
         node_test: {
           id: 5,
@@ -304,6 +322,7 @@
           edge: {
             id: '198',
             label: '',
+            attributes: {},
             source: '66.0',
             target: '62.0',
             type: 'directed',
@@ -329,6 +348,7 @@
           {id: 'authority', title: 'Authority', type: 'float'},
           {id: 'hub', title: 'Hub', type: 'float'}
         ],
+        edgeModel: [],
         nodes_nb: 2,
         node_test: {
           id: 0,
@@ -356,6 +376,7 @@
           edge: {
             id: '0',
             label: '',
+            attributes: {},
             source: '1.0',
             target: '0.0',
             type: 'directed',
@@ -365,6 +386,60 @@
               thickness: 2,
               shape: 'dotted'
             }
+          }
+        }
+      }
+    },
+    {
+      title: 'Edge Data Graph',
+      gexf: 'edge_data',
+      basics: {
+        version: '1.2',
+        mode: 'static',
+        defaultEdgeType: 'directed',
+        meta: {
+          creator: 'Gephi.org',
+          description: 'A Web network',
+          lastmodifieddate: '2009-03-20'
+        },
+        model: [
+          {id: '0', title: 'url', type: 'string'},
+          {id: '1', title: 'indegree', type: 'float'},
+          {id: '2', title: 'frog', type: 'boolean', defaultValue: 'true'}
+        ],
+        edgeModel: [
+          {id: 'predicate', title: 'Predicate', type: 'string', defaultValue: 'likes'},
+          {id: 'confidence', title: 'Confidence', type: 'float'}
+        ],
+        nodes_nb: 4,
+        node_test: {
+          id: 1,
+          node: {
+            id: '1',
+            label: 'Webatlas',
+            attributes: {
+              frog: true,
+              indegree: 2,
+              url: 'http://webatlas.fr'
+            },
+            viz: {}
+          }
+        },
+        edges_nb: 5,
+        edge_test: {
+          id: 3,
+          edge: {
+            id: '3',
+            label: '',
+            attributes: {
+              predicate: 'likes',
+              confidence: 0.88
+            },
+            source: '2',
+            target: '1',
+            type: 'directed',
+            weight: 1,
+            viz: {}
           }
         }
       }
@@ -380,6 +455,7 @@
         'resources/' + t.gexf + '.gexf',
         function(graph) {
           start();
+          // graph.title = t.title;
           graph.testBasics(t.basics);
         }
       );

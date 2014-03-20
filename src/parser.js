@@ -17,6 +17,18 @@
    * A useful batch of function dealing with DOM operations and types.
    */
   var _helpers = {
+    getModelTags: function(xml) {
+      var attributesTags = xml.getElementsByTagName('attributes'),
+          modelTags = {},
+          l = attributesTags.length,
+          i;
+
+      for (i = 0; i < l; i++)
+        modelTags[attributesTags[i].getAttribute('class')] =
+          attributesTags[i].childNodes;
+
+      return modelTags;
+    },
     nodeListToArray: function(nodeList) {
 
       // Return array
@@ -150,6 +162,7 @@
     // Possible Properties
     return {
       id: properties.id,
+      attributes: properties.attributes || {},
       type: properties.type || 'undirected',
       label: properties.label || '',
       source: properties.source,
@@ -176,18 +189,18 @@
       root: xml.getElementsByTagName('gexf')[0],
       graph: xml.getElementsByTagName('graph')[0],
       meta: xml.getElementsByTagName('meta')[0],
-      model: xml.getElementsByTagName('attribute'),
       nodes: xml.getElementsByTagName('node'),
-      edges: xml.getElementsByTagName('edge')
+      edges: xml.getElementsByTagName('edge'),
+      model: _helpers.getModelTags(xml)
     };
 
+    // Information
     _xml.hasViz = !!_helpers.getAttributeNS(_xml.els.root, 'xmlns', 'viz');
     _xml.version = _xml.els.root.getAttribute('version') || '1.0';
     _xml.mode = _xml.els.graph.getAttribute('mode') || 'static';
 
     var edgeType = _xml.els.graph.getAttribute('defaultedgetype');
     _xml.defaultEdgetype = edgeType || 'undirected';
-
 
     // Parser Functions
     //------------------
@@ -211,65 +224,38 @@
     }
 
     // Model
-    function _model() {
+    function _model(cls) {
       var attributes = [];
 
       // Iterating through attributes
-      _helpers.nodeListEach(_xml.els.model, function(attr) {
+      if (_xml.els.model[cls])
+        _helpers.nodeListEach(_xml.els.model[cls], function(attr) {
 
-        // Properties
-        var properties = {
-          id: attr.getAttribute('id') || attr.getAttribute('for'),
-          type: attr.getAttribute('type') || 'string',
-          title: attr.getAttribute('title') || ''
-        };
+          // Properties
+          var properties = {
+            id: attr.getAttribute('id') || attr.getAttribute('for'),
+            type: attr.getAttribute('type') || 'string',
+            title: attr.getAttribute('title') || ''
+          };
 
-        // Defaults
-        var default_el = _helpers.nodeListToArray(attr.childNodes);
+          // Defaults
+          var default_el = _helpers.nodeListToArray(attr.childNodes);
 
-        if (default_el.length > 0)
-          properties.defaultValue = default_el[0].textContent;
+          if (default_el.length > 0)
+            properties.defaultValue = default_el[0].textContent;
 
-        // Creating attribute
-        attributes.push(properties);
-      });
+          // Creating attribute
+          attributes.push(properties);
+        });
 
       return attributes;
     }
 
-    // Nodes
-    function _nodes(model) {
-      var nodes = [];
-
-      // Iteration through nodes
-      _helpers.nodeListEach(_xml.els.nodes, function(n) {
-
-        // Basic properties
-        var properties = {
-          id: n.getAttribute('id'),
-          label: n.getAttribute('label') || ''
-        };
-
-        // Retrieving data from nodes if any
-        if (model.length > 0)
-          properties.attributes = _nodeData(model, n);
-
-        // Retrieving viz information
-        if (_xml.hasViz)
-          properties.viz = _nodeViz(n);
-
-        // Pushing node
-        nodes.push(Node(properties));
-      });
-
-      return nodes;
-    }
-
-    // Data from nodes
-    function _nodeData(model, node) {
+    // Data from nodes or edges
+    function _data(model, node_or_edge) {
 
       var data = {};
-      var attvalues_els = node.getElementsByTagName('attvalue');
+      var attvalues_els = node_or_edge.getElementsByTagName('attvalue');
 
       // Getting Node Indicated Attributes
       var ah = _helpers.nodeListToHash(attvalues_els, function(el) {
@@ -293,6 +279,34 @@
       });
 
       return data;
+    }
+
+    // Nodes
+    function _nodes(model) {
+      var nodes = [];
+
+      // Iteration through nodes
+      _helpers.nodeListEach(_xml.els.nodes, function(n) {
+
+        // Basic properties
+        var properties = {
+          id: n.getAttribute('id'),
+          label: n.getAttribute('label') || ''
+        };
+
+        // Retrieving data from nodes if any
+        if (model.length > 0)
+          properties.attributes = _data(model, n);
+
+        // Retrieving viz information
+        if (_xml.hasViz)
+          properties.viz = _nodeViz(n);
+
+        // Pushing node
+        nodes.push(Node(properties));
+      });
+
+      return nodes;
     }
 
     // Viz information from nodes
@@ -335,7 +349,7 @@
     }
 
     // Edges
-    function _edges(default_type) {
+    function _edges(model, default_type) {
       var edges = [];
 
       // Iteration through edges
@@ -346,6 +360,11 @@
         if (!('type' in properties)) {
           properties.type = default_type;
         }
+
+        // Retrieving edge data
+        if (model.length > 0)
+          properties.attributes = _data(model, e);
+
 
         // Retrieving viz information
         if (_xml.hasViz)
@@ -388,7 +407,10 @@
 
     // Returning the Graph
     //---------------------
-    _xml.model = _model();
+    _xml.model = {
+      node: _model('node'),
+      edge: _model('edge')
+    };
 
     return {
       version: _xml.version,
@@ -396,8 +418,8 @@
       defaultEdgeType: _xml.defaultEdgetype,
       meta: _metaData(),
       model: _xml.model,
-      nodes: _nodes(_xml.model),
-      edges: _edges(_xml.defaultEdgetype)
+      nodes: _nodes(_xml.model.node),
+      edges: _edges(_xml.model.edge, _xml.defaultEdgetype)
     };
   }
 
