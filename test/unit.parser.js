@@ -413,8 +413,7 @@
               frog: true,
               indegree: 2,
               url: 'http://webatlas.fr'
-            },
-            viz: {}
+            }
           }
         },
         edges_nb: 5,
@@ -430,8 +429,7 @@
             source: '2',
             target: '1',
             type: 'directed',
-            weight: 1,
-            viz: {}
+            weight: 1
           }
         }
       }
