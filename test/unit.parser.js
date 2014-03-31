@@ -78,8 +78,6 @@
           description: 'A hello world! file',
           lastmodifieddate: '2009-03-20'
         },
-        model: [],
-        edgeModel: [],
         nodes_nb: 2,
         node_test: {
           id: 0,
@@ -112,8 +110,6 @@
         mode: 'static',
         defaultEdgeType: 'undirected',
         meta: {},
-        model: [],
-        edgeModel: [],
         nodes_nb: 2361,
         node_test: {
           id: 502,
@@ -155,7 +151,6 @@
           {id: '1', title: 'indegree', type: 'float'},
           {id: '2', title: 'frog', type: 'boolean', defaultValue: 'true'}
         ],
-        edgeModel: [],
         nodes_nb: 4,
         node_test: {
           id: 1,
@@ -197,7 +192,6 @@
           {id: '1', title: 'label', type: 'string'},
           {id: '2', title: 'occurrences', type: 'integer'}
         ],
-        edgeModel: [],
         nodes_nb: 1715,
         node_test: {
           id: 1100,
@@ -244,8 +238,6 @@
         mode: 'static',
         defaultEdgeType: 'undirected',
         meta: {},
-        model: [],
-        edgeModel: [],
         nodes_nb: 306,
         node_test: {
           id: 203,
@@ -286,7 +278,6 @@
           {id: 'authority', title: 'Authority', type: 'float'},
           {id: 'hub', title: 'Hub', type: 'float'}
         ],
-        edgeModel: [],
         nodes_nb: 77,
         node_test: {
           id: 5,
@@ -340,7 +331,6 @@
           {id: 'authority', title: 'Authority', type: 'float'},
           {id: 'hub', title: 'Hub', type: 'float'}
         ],
-        edgeModel: [],
         nodes_nb: 2,
         node_test: {
           id: 0,

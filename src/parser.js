@@ -256,7 +256,7 @@
           attributes.push(properties);
         });
 
-      return attributes;
+      return attributes.length > 0 ? attributes : false;
     }
 
     // Data from nodes or edges
@@ -303,7 +303,7 @@
         };
 
         // Retrieving data from nodes if any
-        if (model.length > 0)
+        if (model)
           properties.attributes = _data(model, n);
 
         // Retrieving viz information
@@ -370,7 +370,7 @@
         }
 
         // Retrieving edge data
-        if (model.length > 0)
+        if (model)
           properties.attributes = _data(model, e);
 
 
@@ -415,20 +415,25 @@
 
     // Returning the Graph
     //---------------------
-    _xml.model = {
-      node: _model('node'),
-      edge: _model('edge')
-    };
+    var nodeModel = _model('node'),
+        edgeModel = _model('edge');
 
-    return {
+    var graph = {
       version: _xml.version,
       mode: _xml.mode,
       defaultEdgeType: _xml.defaultEdgetype,
       meta: _metaData(),
-      model: _xml.model,
-      nodes: _nodes(_xml.model.node),
-      edges: _edges(_xml.model.edge, _xml.defaultEdgetype)
+      model: {},
+      nodes: _nodes(nodeModel),
+      edges: _edges(edgeModel, _xml.defaultEdgetype)
     };
+
+    if (nodeModel)
+      graph.model.node = nodeModel;
+    if (edgeModel)
+      graph.model.edge = edgeModel;
+
+    return graph;
   }
 
 
