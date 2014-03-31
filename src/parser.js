@@ -55,7 +55,7 @@
     },
     namedNodeMapToObject: function(nodeMap) {
 
-        // Return object
+      // Return object
       var attributes = {};
 
       // Iterating
@@ -129,12 +129,16 @@
   function Node(properties) {
 
     // Possible Properties
-    return {
+    var node = {
       id: properties.id,
       label: properties.label,
-      attributes: properties.attributes || {},
-      viz: properties.viz || {}
+      attributes: properties.attributes || {}
     };
+
+    if (properties.viz)
+      node.viz = properties.viz;
+
+    return node;
   }
 
 
@@ -148,15 +152,19 @@
   function Edge(properties) {
 
     // Possible Properties
-    return {
+    var edge = {
       id: properties.id,
       type: properties.type || 'undirected',
       label: properties.label || '',
       source: properties.source,
       target: properties.target,
-      weight: +properties.weight || 1.0,
-      viz: properties.viz || {}
+      weight: +properties.weight || 1.0
     };
+
+    if (properties.viz)
+      edge.viz = properties.viz;
+
+    return edge;
   }
 
   /**

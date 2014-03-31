@@ -78,8 +78,7 @@
           node: {
             id: '0',
             label: 'Hello',
-            attributes: {},
-            viz: {}
+            attributes: {}
           }
         },
         edges_nb: 1,
@@ -91,8 +90,7 @@
             source: '0',
             target: '1',
             type: 'directed',
-            weight: 1,
-            viz: {}
+            weight: 1
           }
         }
       }
@@ -112,8 +110,7 @@
           node: {
             attributes: {},
             id: '5443',
-            label: 'YDR283C',
-            viz: {}
+            label: 'YDR283C'
           }
         },
         edges_nb: 7182,
@@ -125,8 +122,7 @@
             source: '5096',
             target: '6882',
             type: 'undirected',
-            weight: 1,
-            viz: {}
+            weight: 1
           }
         }
       }
@@ -158,8 +154,7 @@
               frog: true,
               indegree: 2,
               url: 'http://webatlas.fr'
-            },
-            viz: {}
+            }
           }
         },
         edges_nb: 5,
@@ -171,8 +166,7 @@
             source: '2',
             target: '1',
             type: 'directed',
-            weight: 1,
-            viz: {}
+            weight: 1
           }
         }
       }
@@ -242,8 +236,7 @@
           node: {
             id: '281',
             label: '282',
-            attributes: {},
-            viz: {}
+            attributes: {}
           }
         },
         edges_nb: 2345,
@@ -255,8 +248,7 @@
             source: '38',
             target: '302',
             type: 'undirected',
-            weight: 2,
-            viz: {}
+            weight: 2
           }
         }
       }
