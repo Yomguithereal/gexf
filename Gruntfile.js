@@ -32,7 +32,7 @@ module.exports = function(grunt) {
       },
       prod: {
         files: {
-          'build/gexf-parser.min.js': jsfiles
+          'build/gexf.min.js': jsfiles
         }
       }
     },

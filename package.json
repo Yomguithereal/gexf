@@ -1,7 +1,7 @@
 {
-  "name": "gexf-parser",
+  "name": "gexf",
   "version": "0.1.0",
-  "description": "A gexf file parser for javascript.",
+  "description": "A GEXF library for JavaScript.",
   "homepage": "http://github.com/Yomguithereal/gexf-parser",
   "main": "index.js",
   "keywords": [

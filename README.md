@@ -1,22 +1,22 @@
 [![Build Status](https://travis-ci.org/Yomguithereal/gexf-parser.png)](https://travis-ci.org/Yomguithereal/gexf-parser)
 
-#Gexf-Parser
+#GEXF JavaScript Library
 
 ##Description
-This parser is designed to fetch a remote .gexf file and parse it into a javascript object for later manipulation. It was developed to be used with [sigma 1.0.0 version](https://github.com/jacomyal/sigma.js) and can be compiled as a [sigma plugin](https://github.com/jacomyal/sigma.js/tree/master/plugins/sigma.parsers.gexf).
+This gexf parser is designed to fetch a remote .gexf file and parse it into a javascript object for later manipulation. It was developed to be used with [sigma](https://github.com/jacomyal/sigma.js) and can be compiled as a [sigma plugin](https://github.com/jacomyal/sigma.js/tree/master/plugins/sigma.parsers.gexf).
 
 ##Usage
-The GexfParser can be used either to fetch and parse the .gexf file or just to parse it if you want to fetch it by your own means. The parser adds a GexfParser variable to your global scope so you can use it.
+The gexf can be used either to fetch and parse the .gexf file or just to parse it if you want to fetch it by your own means. The parser adds a `gexf` variable to your global scope so you can use it.
 
 
 **Fetching and parsing**
 ```js
 // Synchronously fetch the gexf and parse it
-var gexf = GexfParser.fetch('/url/to/file.gexf');
+var graph = gexf.fetch('/url/to/file.gexf');
 
 // Asynchronously fetch the gexf and parse it
-GexfParser.fetch('/url/to/file.gexf', function(gexf) {
-  console.log(gexf);
+gexf.fetch('/url/to/file.gexf', function(graph) {
+  console.log(graph);
 });
 ```
 
@@ -28,7 +28,7 @@ If you want to fetch the gexf yourself, you can still parse the graph by providi
 var gexf_dom = new DOMParser().parseFromString(gexf_string, "application/xml");
 
 // Parsing the gexf
-var gexf = GexfParser.parse(gexf_dom);
+var graph = gexf.parse(gexf_dom);
 ```
 
 ## Build
@@ -127,4 +127,4 @@ cd gexf-parser
 npm install
 ```
 
-Be sure to add relevant unit tests and pass the linter before submitting any change to the parser. The default grunt command will lint the files, run the tests and minify the code into `build/gexf-parser.min.js`.
+Be sure to add relevant unit tests and pass the linter before submitting any change to the parser. The default grunt command will lint the files, run the tests and minify the code into `build/gexf.min.js`.

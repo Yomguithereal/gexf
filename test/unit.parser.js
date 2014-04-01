@@ -421,7 +421,7 @@
   tests.map(function(t) {
 
     asyncTest(t.title, function() {
-      GexfParser.fetch(
+      gexf.fetch(
         'resources/' + t.gexf + '.gexf',
         function(graph) {
           start();
@@ -433,17 +433,17 @@
   });
 
   module('API');
-  asyncTest('GexfParser.fetch', function() {
+  asyncTest('gexf.fetch', function() {
     var g2,
-        g1 = GexfParser.fetch('resources/minimal.gexf');
+        g1 = gexf.fetch('resources/minimal.gexf');
 
-    GexfParser.fetch('resources/minimal.gexf', function(graph) {
+    gexf.fetch('resources/minimal.gexf', function(graph) {
       g2 = graph;
       start();
-      deepEqual(g1, g2, 'GexfParser.fetch works the same in both sync and async modes.');
+      deepEqual(g1, g2, 'gexf.fetch works the same in both sync and async modes.');
     });
   });
-  test('GexfParser.parse', function() {
+  test('gexf.parse', function() {
     var xhr = (function() {
       if (window.XMLHttpRequest)
         return new XMLHttpRequest();
@@ -476,8 +476,8 @@
     xhr.open('GET', 'resources/minimal.gexf', false);
     xhr.send();
 
-    var gexf = xhr.responseXML,
-        graph = GexfParser.parse(gexf);
+    var gexf_response = xhr.responseXML,
+        graph = gexf.parse(gexf_response);
 
     graph.testBasics(tests[0].basics);
   });
