@@ -5,7 +5,11 @@
   "homepage": "http://github.com/Yomguithereal/gexf-parser",
   "main": "index.js",
   "keywords": [
-    "parser"
+    "gexf",
+    "parser",
+    "xml",
+    "graph",
+    "sigma"
   ],
   "bugs": "http://github.com/Yomguithereal/gexf-parser/issues",
   "author": {
