@@ -3,18 +3,21 @@
 #GEXF JavaScript Library
 
 ##Description
-This gexf parser is designed to fetch a remote .gexf file and parse it into a javascript object for later manipulation. It was developed to be used with [sigma](https://github.com/jacomyal/sigma.js) and can be compiled as a [sigma plugin](https://github.com/jacomyal/sigma.js/tree/master/plugins/sigma.parsers.gexf).
+This gexf library is designed to parse and, in a near future, create gexf files. It can be used either client-side or with node.
+
+It was originally developed to be used with [sigma](https://github.com/jacomyal/sigma.js) and can be compiled as a [sigma plugin](https://github.com/jacomyal/sigma.js/tree/master/plugins/sigma.parsers.gexf).
 
 ##Usage
-The gexf can be used either to fetch and parse the .gexf file or just to parse it if you want to fetch it by your own means. The parser adds a `gexf` variable to your global scope so you can use it.
 
+###Client-side
+The gexf can either be used to fetch and parse the .gexf file or just to parse it if you want to fetch it by your own means. The parser adds a `gexf` variable to your global scope so you can use it.
 
 **Fetching and parsing**
 ```js
-// Synchronously fetch the gexf and parse it
+// Synchronously fetch the gexf file and parse it
 var graph = gexf.fetch('/url/to/file.gexf');
 
-// Asynchronously fetch the gexf and parse it
+// Asynchronously fetch the gexf file and parse it
 gexf.fetch('/url/to/file.gexf', function(graph) {
   console.log(graph);
 });
@@ -31,8 +34,31 @@ var gexf_dom = new DOMParser().parseFromString(gexf_string, "application/xml");
 var graph = gexf.parse(gexf_dom);
 ```
 
+###Node.js
+
+**Installation**
+```
+# For the latest released version
+npm install gexf
+
+# For the development version
+npm install git+https://github.com/Yomguithereal/gexf-parser.git
+```
+
+**Parsing**
+```js
+var fs = require('fs'),
+    gexf = require('gexf');
+
+// Reading your gexf file
+var gexf_file = fs.readFileSync('/path/to/your.gexf', 'utf-8');
+
+// Parsing it
+var graph = gexf.parse(gexf_file);
+```
+
 ## Build
-If you want to build the minify version, clone this repo and launch the uglify grunt task.
+If you want to build the minified client version, clone this repo and launch the uglify grunt task.
 
 ```bash
 git clone git@github.com:Yomguithereal/gexf-parser.git
