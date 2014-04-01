@@ -143,12 +143,14 @@
     // Possible Properties
     var node = {
       id: properties.id,
-      label: properties.label,
-      attributes: properties.attributes || {}
+      label: properties.label
     };
 
     if (properties.viz)
       node.viz = properties.viz;
+
+    if (properties.attributes)
+      node.attributes = properties.attributes;
 
     return node;
   }
@@ -166,7 +168,6 @@
     // Possible Properties
     var edge = {
       id: properties.id,
-      attributes: properties.attributes || {},
       type: properties.type || 'undirected',
       label: properties.label || '',
       source: properties.source,
@@ -176,6 +177,9 @@
 
     if (properties.viz)
       edge.viz = properties.viz;
+
+    if (properties.attributes)
+      edge.attributes = properties.attributes;
 
     return edge;
   }

@@ -83,8 +83,7 @@
           id: 0,
           node: {
             id: '0',
-            label: 'Hello',
-            attributes: {}
+            label: 'Hello'
           }
         },
         edges_nb: 1,
@@ -93,7 +92,6 @@
           edge: {
             id: '0',
             label: '',
-            attributes: {},
             source: '0',
             target: '1',
             type: 'directed',
@@ -114,7 +112,6 @@
         node_test: {
           id: 502,
           node: {
-            attributes: {},
             id: '5443',
             label: 'YDR283C'
           }
@@ -125,7 +122,6 @@
           edge: {
             id: '14488',
             label: '',
-            attributes: {},
             source: '5096',
             target: '6882',
             type: 'undirected',
@@ -170,7 +166,6 @@
           edge: {
             id: '3',
             label: '',
-            attributes: {},
             source: '2',
             target: '1',
             type: 'directed',
@@ -220,7 +215,6 @@
           edge: {
             id: '305',
             label: '',
-            attributes: {},
             source: '263',
             target: '113',
             type: 'undirected',
@@ -243,8 +237,7 @@
           id: 203,
           node: {
             id: '281',
-            label: '282',
-            attributes: {}
+            label: '282'
           }
         },
         edges_nb: 2345,
@@ -253,7 +246,6 @@
           edge: {
             id: '285',
             label: '',
-            attributes: {},
             source: '38',
             target: '302',
             type: 'undirected',
@@ -305,7 +297,6 @@
           edge: {
             id: '198',
             label: '',
-            attributes: {},
             source: '66.0',
             target: '62.0',
             type: 'directed',
@@ -358,7 +349,6 @@
           edge: {
             id: '0',
             label: '',
-            attributes: {},
             source: '1.0',
             target: '0.0',
             type: 'directed',
