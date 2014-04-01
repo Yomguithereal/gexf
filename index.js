@@ -4,7 +4,7 @@
  *
  * Author: PLIQUE Guillaume (Yomguithereal)
  * URL: https://github.com/Yomguithereal/gexf-parser
- * Version: 0.1.0
+ * Version: 0.1.1
  */
 var DOMParser = require('xmldom').DOMParser,
     gexf = require('./src/parser.js');

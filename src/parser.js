@@ -7,7 +7,7 @@
    *
    * Author: PLIQUE Guillaume (Yomguithereal)
    * URL: https://github.com/Yomguithereal/gexf-parser
-   * Version: 0.1.0
+   * Version: 0.1.1
    */
 
   /**
@@ -540,7 +540,7 @@
     fetch: fetchAndParse,
 
     // Version
-    version: '0.1.0'
+    version: '0.1.1'
   };
 
   if (typeof exports !== 'undefined' && this.exports !== exports)
