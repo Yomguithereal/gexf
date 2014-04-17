@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Yomguithereal/gexf-parser.png)](https://travis-ci.org/Yomguithereal/gexf-parser)
+[![Build Status](https://travis-ci.org/Yomguithereal/gexf-parser.svg)](https://travis-ci.org/Yomguithereal/gexf-parser)
 
 #GEXF JavaScript Library
 
