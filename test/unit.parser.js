@@ -154,9 +154,9 @@
             id: '1',
             label: 'Webatlas',
             attributes: {
-              frog: true,
-              indegree: 2,
-              url: 'http://webatlas.fr'
+              '0': 'http://webatlas.fr',
+              '1': 2,
+              '2': true
             }
           }
         },
@@ -194,9 +194,9 @@
             id: '1102',
             label: 'Interglacial Period',
             attributes: {
-              label: 'Interglacial Period',
-              nodedef: 'n1102',
-              occurrences: 3
+              '0': 'n1102',
+              '1': 'Interglacial Period',
+              '2': 3
             },
             viz: {
               color: 'rgb(153,255,255)',
@@ -390,9 +390,9 @@
             id: '1',
             label: 'Webatlas',
             attributes: {
-              frog: true,
-              indegree: 2,
-              url: 'http://webatlas.fr'
+              '0': 'http://webatlas.fr',
+              '1': 2,
+              '2': true
             }
           }
         },
