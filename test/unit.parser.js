@@ -413,6 +413,60 @@
           }
         }
       }
+    },
+    {
+      title: 'Case & Attributes Graph',
+      gexf: 'case',
+      basics: {
+        version: '1.2',
+        mode: 'static',
+        defaultEdgeType: 'directed',
+        meta: {
+          creator: 'polinode.com',
+          description: 'Survey One',
+          lastmodifieddate: '02-05-2014'
+        },
+        model: [
+          {id: 'name', title: 'name', type: 'string'},
+          {id: 'status', title: 'status', type: 'string'},
+          {id: 'list', title: 'list', type: 'string'},
+          {id: 'Gender', title: 'Gender', type: 'string'},
+          {id: 'Position', title: 'Position', type: 'string'}
+        ],
+        edgeModel: [
+          {id: 'Q1', title: 'Q1', type: 'string'}
+        ],
+        nodes_nb: 10,
+        node_test: {
+          id: 1,
+          node: {
+            id: '5362389af1e6696e0395864e',
+            label: '2',
+            attributes: {
+              Gender: 'Female',
+              Position: 'Graduate',
+              list: 'Respondent',
+              name: 'Cleopatra Cordray',
+              status: 'Submitted'
+            }
+          }
+        },
+        edges_nb: 20,
+        edge_test: {
+          id: 3,
+          edge: {
+            id: '4',
+            label: '',
+            attributes: {
+              Q1: 'true'
+            },
+            source: '5362389af1e6696e0395864e',
+            target: '5362389af1e6696e03958654',
+            type: 'directed',
+            weight: 1
+          }
+        }
+      }
     }
   ];
 
