@@ -114,7 +114,7 @@
           break;
 
         case 'liststring':
-          value = value.split('|');
+          value = (value || '').split('|');
           break;
       }
 
