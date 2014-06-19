@@ -467,6 +467,50 @@
           }
         }
       }
+    },
+    {
+      title: 'ListString Graph',
+      gexf: 'liststring',
+      basics: {
+        version: '1.2',
+        mode: 'static',
+        defaultEdgeType: 'directed',
+        meta: {
+          creator: 'Gephi.org',
+          description: 'A Web network',
+          lastmodifieddate: '2009-03-20'
+        },
+        model: [
+          {id: '0', title: 'types', type: 'liststring'},
+          {id: '1', title: 'indegree', type: 'float'},
+          {id: '2', title: 'frog', type: 'boolean', defaultValue: 'true'}
+        ],
+        nodes_nb: 4,
+        node_test: {
+          id: 0,
+          node: {
+            id: '0',
+            label: 'Gephi',
+            attributes: {
+              '0': ['cooking', 'money'],
+              '1': 1,
+              '2': true
+            }
+          }
+        },
+        edges_nb: 5,
+        edge_test: {
+          id: 3,
+          edge: {
+            id: '3',
+            label: '',
+            source: '2',
+            target: '1',
+            type: 'directed',
+            weight: 1
+          }
+        }
+      }
     }
   ];
 
