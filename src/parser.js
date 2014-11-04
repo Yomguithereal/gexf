@@ -2,8 +2,8 @@
   'use strict';
 
   /**
-   * GEXF Library
-   * =============
+   * GEXF Parser
+   * ============
    *
    * Author: PLIQUE Guillaume (Yomguithereal)
    * URL: https://github.com/Yomguithereal/gexf-parser
@@ -532,11 +532,7 @@
    * Exporting
    * ----------
    */
-  if (typeof this.gexf !== 'undefined')
-    throw 'gexf: error - a variable called "gexf" already ' +
-          'exists in the global scope';
-
-  this.gexf = {
+  var gexf = {
 
     // Functions
     parse: parse,
@@ -546,6 +542,28 @@
     version: '0.1.1'
   };
 
-  if (typeof exports !== 'undefined' && this.exports !== exports)
-    module.exports = this.gexf;
+  if (typeof exports !== 'undefined') {
+    if (typeof module !== 'undefined' && module.exports)
+      exports = module.exports = gexf;
+    exports.gexf = gexf;
+  }
+  else if (typeof define === 'function' && define.amd) {
+    define('gexf', [], function() {
+      return gexf;
+    });
+  }
+  else {
+
+    if (typeof this.gexf !== 'undefined') {
+
+      // Extending
+      this.gexf.parse = parse;
+      this.gexf.fetch = fetchAndParse;
+    }
+    else {
+
+      // Creating
+      this.gexf = gexf;
+    }
+  }
 }).call(this);

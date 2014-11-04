@@ -13,7 +13,7 @@
   // Helpers
   //---------
 
-  Object.prototype.testBasics = function(basics) {
+  var testBasics = function(basics) {
 
     // Root information
     strictEqual(this.version, basics.version, 'Version is retrieved.');
@@ -524,7 +524,7 @@
         function(graph) {
           start();
           // graph.title = t.title;
-          graph.testBasics(t.basics);
+          testBasics.call(graph, t.basics);
         }
       );
     });
@@ -577,6 +577,6 @@
     var gexf_response = xhr.responseXML,
         graph = gexf.parse(gexf_response);
 
-    graph.testBasics(tests[0].basics);
+    testBasics.call(graph, tests[0].basics);
   });
 })();
