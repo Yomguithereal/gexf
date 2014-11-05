@@ -25,7 +25,7 @@ gexf.fetch('/url/to/file.gexf', function(graph) {
 
 **Parsing only**
 
-If you want to fetch the gexf yourself, you can still parse the graph by providing a javascript DOM object to the parser (an ajax XML response or a parsed string, for instance). 
+If you want to fetch the gexf yourself, you can still parse the graph by providing a javascript DOM object to the parser (an ajax XML response or a parsed string, for instance).
 ```js
 // Converting a string to a DOM object
 var gexf_dom = new DOMParser().parseFromString(gexf_string, "application/xml");
@@ -72,7 +72,7 @@ The following example shows what the parser is able to output given a gexf file.
 
 ```js
 {
-  version "1.0.1",
+  version: "1.0.1",
   meta: {
     creator: "Yomguithereal",
     lastmodifieddate: "2010-05-29+01:27",
