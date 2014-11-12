@@ -20,13 +20,11 @@
       case 'long':
       case 'float':
       case 'double':
-        return value = '' + value;
-        break;
+        return '' + value;
 
       case 'liststring':
         if (value instanceof Array)
           return value.join('|');
-        break;
     }
 
     if (typeof value === 'object')
@@ -66,7 +64,7 @@
     }
 
     return result;
-  };
+  }
 
 
   /**
@@ -174,8 +172,9 @@
   };
 
   Gexf.prototype.setMeta = function(o) {
+    o = o || {};
+
     var meta = this.document.createElement('meta'),
-        o = o || {},
         m,
         n,
         t;
