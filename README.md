@@ -171,7 +171,9 @@ The following example shows what the parser is able to output given a gexf file.
 
 ## Writer
 
-Note that the data format expected by the writer is exactly the same as the one outputted by the parser. This means that theoritically - by this I mean "if I did my job correctly" - you can give the result graph from parsing a gexf file and give it to the writer to create the same identical file.
+Note that the data format expected by the writer is exactly the same as the one outputted by the parser.
+
+This means that theoritically - i.e. "if I did my job correctly" - you can give the result graph from parsing a gexf file and give it to the writer to create an identical file.
 
 ### Instantiation
 
