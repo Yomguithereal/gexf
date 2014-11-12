@@ -92,12 +92,15 @@
     // Assigning namespaces
     // TODO: version here also
     this.xmlns = params.namespace || 'http://www.gexf.net/1.2draft';
+    this.vizXmlns = params.vizNamespace || 'http:///www.gexf.net/1.2draft/viz';
     this.root.setAttribute('xmlns',
       this.xmlns);
     this.root.setAttribute('xmlns:xsi',
       'http://www.w3.org/2001/XMLSchema-instance');
     this.root.setAttribute('xsi:schemaLocation',
       'http://www.gexf.net/1.2draft http://www.gexf.net/1.2draft/gexf.xsd');
+
+    this.hasViz = false;
 
     // Version
     this.root.setAttribute('version', params.version || '1.2');
@@ -286,6 +289,11 @@
     // Viz
     if (n.viz) {
 
+      if (!this.hasViz) {
+        this.hasViz = true;
+        this.root.setAttribute('xmlns:viz', this.vizXmlns);
+      }
+
       if (n.viz.color) {
         var rgba = parseColor(n.viz.color);
 
@@ -370,6 +378,11 @@
 
     // Viz
     if (e.viz) {
+
+      if (!this.hasViz) {
+        this.hasViz = true;
+        this.root.setAttribute('xmlns:viz', this.vizXmlns);
+      }
 
       if (e.viz.color) {
         var rgba = parseColor(e.viz.color);
