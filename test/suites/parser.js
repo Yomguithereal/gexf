@@ -1,69 +1,21 @@
-/*
-| -------------------------------------------------------------------
-|  GEXF Parser Tests
-| -------------------------------------------------------------------
-|
-|
-| Author: PLIQUE Guillaume (Yomguithereal)
-*/
+/**
+ * Gexf Parser Unit Tests
+ * =======================
+ *
+ * Testing the parsing utilities of the gexf library.
+ */
 
-(function() {
+if (!('window' in this)) {
+  var assert = require('assert'),
+      gexf = require('../../index.js'),
+      helpers = require('../helpers.js'),
+      async = require('async');
+}
 
-  // Helpers
-  //---------
+describe('Parser', function() {
+  this.timeout(5000);
 
-  var testBasics = function(basics) {
-
-    // Root information
-    strictEqual(this.version, basics.version, 'Version is retrieved.');
-    strictEqual(this.mode, basics.mode, 'Mode is retrieved.');
-    strictEqual(
-      this.defaultEdgeType,
-      basics.defaultEdgeType,
-      'DefaultEdgeType is retrieved.'
-    );
-
-    // Meta
-    deepEqual(
-      this.meta,
-      basics.meta,
-      'Meta information is retrieved.'
-    );
-
-    // Node Model
-    deepEqual(
-      this.model.node,
-      basics.model,
-      'Node model correctly retrieved.'
-    );
-
-    // Edge Model
-    deepEqual(
-      this.model.edge,
-      basics.edgeModel,
-      'Edge model correctly retrieved.'
-    );
-
-    // Nodes
-    strictEqual(this.nodes.length, basics.nodes_nb, 'All nodes retrieved.');
-    deepEqual(
-      this.nodes[basics.node_test.id],
-      basics.node_test.node,
-      'Node test passed.'
-    );
-
-    // Edges
-    strictEqual(this.edges.length, basics.edges_nb, 'All edges retrieved.');
-    deepEqual(
-      this.edges[basics.edge_test.id],
-      basics.edge_test.edge,
-      'Edge test passed.'
-    );
-  };
-
-
-  // Tests
-  //-------
+  // Collection of tests expected results
   var tests = [
     {
       title: 'Minimal Graph',
@@ -513,69 +465,68 @@
     }
   ];
 
-  // Running actual tests
-  module('Parser');
-  tests.map(function(t) {
+  // Most standard cases
+  it('should be able to handle every standard cases.', function(done) {
 
-    asyncTest(t.title, function() {
-      gexf.fetch(
-        'resources/' + t.gexf + '.gexf',
-        function(graph) {
-          start();
-          // graph.title = t.title;
-          testBasics.call(graph, t.basics);
+    // Testing every gexf file
+    async.parallel(
+      tests.map(function(t, i) {
+        return function(next) {
+
+          helpers.fetch(t.gexf, function(graph) {
+            var basics = tests[i].basics;
+
+            // Root information
+            assert.strictEqual(graph.version, basics.version, 'Version is retrieved.');
+            assert.strictEqual(graph.mode, basics.mode, 'Mode is retrieved.');
+            assert.strictEqual(
+              graph.defaultEdgeType,
+              basics.defaultEdgeType,
+              'DefaultEdgeType is retrieved.'
+            );
+
+            // Meta
+            assert.deepEqual(
+              graph.meta,
+              basics.meta,
+              'Meta information is retrieved.'
+            );
+
+            // Node Model
+            assert.deepEqual(
+              graph.model.node,
+              basics.model,
+              'Node model correctly retrieved.'
+            );
+
+            // Edge Model
+            assert.deepEqual(
+              graph.model.edge,
+              basics.edgeModel,
+              'Edge model correctly retrieved.'
+            );
+
+            // Nodes
+            assert.strictEqual(graph.nodes.length, basics.nodes_nb, 'All nodes retrieved.');
+            assert.deepEqual(
+              graph.nodes[basics.node_test.id],
+              basics.node_test.node,
+              'Node test passed.'
+            );
+
+            // Edges
+            assert.strictEqual(graph.edges.length, basics.edges_nb, 'All edges retrieved.');
+            assert.deepEqual(
+              graph.edges[basics.edge_test.id],
+              basics.edge_test.edge,
+              'Edge test passed.'
+            );
+
+            next();
+          });
         }
-      );
-    });
+      }),
+      done
+    );
   });
-
-  module('API');
-  asyncTest('gexf.fetch', function() {
-    var g2,
-        g1 = gexf.fetch('resources/minimal.gexf');
-
-    gexf.fetch('resources/minimal.gexf', function(graph) {
-      g2 = graph;
-      start();
-      deepEqual(g1, g2, 'gexf.fetch works the same in both sync and async modes.');
-    });
-  });
-  test('gexf.parse', function() {
-    var xhr = (function() {
-      if (window.XMLHttpRequest)
-        return new XMLHttpRequest();
-
-      var names,
-          i;
-
-      if (window.ActiveXObject) {
-        names = [
-          'Msxml2.XMLHTTP.6.0',
-          'Msxml2.XMLHTTP.3.0',
-          'Msxml2.XMLHTTP',
-          'Microsoft.XMLHTTP'
-        ];
-
-        for (i in names)
-          try {
-            return new ActiveXObject(names[i]);
-          } catch (e) {}
-      }
-
-      return null;
-    })();
-
-    if (!xhr)
-      throw 'XMLHttpRequest not supported, cannot load the file.';
-
-    if (xhr.overrideMimeType)
-      xhr.overrideMimeType('text/xml');
-    xhr.open('GET', 'resources/minimal.gexf', false);
-    xhr.send();
-
-    var gexf_response = xhr.responseXML,
-        graph = gexf.parse(gexf_response);
-
-    testBasics.call(graph, tests[0].basics);
-  });
-})();
+});
