@@ -3,9 +3,18 @@
 # GEXF JavaScript Library
 
 ## Description
-This gexf library is designed to parse and, in a near future, create gexf files. It can be used either client-side or with node.
+This gexf library is designed to parse and write [gexf](http://gexf.net/format/) files. It can be used either client-side or with node.
 
 It was originally developed to be used with [sigma](https://github.com/jacomyal/sigma.js) and can be compiled as a [sigma plugin](https://github.com/jacomyal/sigma.js/tree/master/plugins/sigma.parsers.gexf).
+
+## Summary
+
+* [Usage](#usage)
+  * [Client-side](#client-side)
+  * [Node.js](#nodejs)
+* [Build](#build)
+* [Output data](#output-data)
+* [Writer](#writer)
 
 ## Usage
 
@@ -34,6 +43,14 @@ var gexf_dom = new DOMParser().parseFromString(gexf_string, "application/xml");
 var graph = gexf.parse(gexf_dom);
 ```
 
+**Writing**
+
+For more precisions, refer to the [writer](#writer) section of the current documentation.
+
+```js
+var myGexf = gexf.create([params]);
+```
+
 ###Node.js
 
 **Installation**
@@ -55,6 +72,16 @@ var gexf_file = fs.readFileSync('/path/to/your.gexf', 'utf-8');
 
 // Parsing it
 var graph = gexf.parse(gexf_file);
+```
+
+**Writing**
+
+For more precisions, refer to the [writer](#writer) section of the current documentation.
+
+```js
+var gexf = require('gexf');
+
+var myGexf = gexf.create([params]);
 ```
 
 ## Build
@@ -141,6 +168,10 @@ The following example shows what the parser is able to output given a gexf file.
   ]
 }
 ```
+
+## Writer
+
+WIP
 
 ## Contribution
 Please feel free to contribute. To set up the dev environment you should have **nodejs**, **npm** and **gulp** installed.
