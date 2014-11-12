@@ -1,7 +1,7 @@
 .gitignore
 .npmignore
 .travis.yml
-Gruntfile.js
+gulpfile.js
 node_modules
 test
 build
