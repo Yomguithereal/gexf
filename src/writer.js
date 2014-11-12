@@ -336,9 +336,6 @@
         a,
         m;
 
-    if (typeof e.id === 'undefined' || e.id === null)
-      throw Error('gexf.writer.addEdge: inexistent id.');
-
     // Creating element
     var edge = this.createElement('edge', {
       id: e.id,
