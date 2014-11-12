@@ -58,13 +58,13 @@ var graph = gexf.parse(gexf_file);
 ```
 
 ## Build
-If you want to build the minified client version, clone this repo and launch the uglify grunt task.
+If you want to build the minified client version, clone this repo and launch the build task.
 
 ```bash
 git clone git@github.com:Yomguithereal/gexf-parser.git
 cd gexf-parser
 npm install
-grunt uglify
+gulp build
 ```
 
 ## Output Data
@@ -143,9 +143,7 @@ The following example shows what the parser is able to output given a gexf file.
 ```
 
 ## Contribution
-Please feel free to contribute. To set up the dev environment you should have **nodejs**, **npm** and **grunt** installed.
-
-Also, to lint the files, you need [gjslint](https://developers.google.com/closure/utilities/docs/linter_howto?hl=fr).
+Please feel free to contribute. To set up the dev environment you should have **nodejs**, **npm** and **gulp** installed.
 
 ```bash
 git clone git@github.com:Yomguithereal/gexf-parser.git
@@ -153,4 +151,8 @@ cd gexf-parser
 npm install
 ```
 
-Be sure to add relevant unit tests and pass the linter before submitting any change to the parser. The default grunt command will lint the files, run the tests and minify the code into `build/gexf.min.js`.
+Be sure to add relevant unit tests and pass the linter before submitting any change to the library.
+
+```bash
+npm test
+```
