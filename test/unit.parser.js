@@ -4,8 +4,7 @@
 | -------------------------------------------------------------------
 |
 |
-| Author : PLIQUE Guillaume (Yomguithereal)
-| Version : 1.0
+| Author: PLIQUE Guillaume (Yomguithereal)
 */
 
 (function() {
