@@ -171,7 +171,96 @@ The following example shows what the parser is able to output given a gexf file.
 
 ## Writer
 
-WIP
+Note that the data format expected by the writer is exactly the same as the one outputted by the parser. This means that theoritically - by this I mean "if I did my job correctly" - you can give the result graph from parsing a gexf file and give it to the writer to create the same identical file.
+
+### Instantiation
+
+To create a writer instance, just do the following:
+
+```js
+var myGexf = gexf.create([params]);
+```
+
+*Parameters*
+
+Possible parameters are:
+
+* **meta** *?object*: an object of metadata for the graph.
+* **defaultEdgeType** *?string* [`'undirected'`]: default edge type.
+* **encoding** *?string* [`'UTF-8'`]: encoding of the XML file.
+* **mode** *?string*: mode of the graph. `static` or `dynamic` for instance.
+* **models** *?object*: an object containing the models of the nodes and/or edges.
+  * **node** *?array*: array of node possible attributes. see [output data](#output-data) for precisions.
+  * **edge** *?array*: array of edge possible attributes. see [output data](#output-data) for precisions.
+* **nodes** *?array*: array of nodes to pass at instantiation time.
+* **edges** *?array*: array of edges to pass at instantiation time.
+* **implementation** *?DOMImplementation*: the DOM implementation to build the XML document. Will take the browser's one by default of xmldom's one in node.
+* **namespace** *?string* [`'http://www.gexf.net/1.2draft'`]: gexf XML namespace to use.
+* **version** *?string* [`'1.2'`]: version of gexf to produce.
+
+### Methods
+
+*setMeta*
+
+Same as passing a `meta` parameter at instantiation.
+
+*setNodeModel*
+
+Same as passing a `models.node` parameter at instantiation.
+
+*setEdgeModel*
+
+Same as passing a `models.edge` parameter at instantiation.
+
+*addNode*
+
+Adding a single node to the gexf document.
+
+```js
+myGexf.addNode({
+  id: 'n01',
+  label: 'myFirstNode',
+  attributes: {
+    name: 'John',
+    surname: 'Silver'
+  },
+  viz: {
+    color: 'rgb(255, 234, 45)'
+  }
+});
+```
+
+*addEdge*
+
+Adding a single edge to the gexf document.
+
+```js
+myGexf.addEdge({
+  id: 'e01',
+  source: 'n01',
+  target: 'n02',
+  attributes: {
+    predicate: 'LIKES'
+  },
+  viz: {
+    thickness: 34
+  }
+});
+```
+
+*export*
+
+Produce the string representation of the gexf document.
+
+### Retrieving the gexf
+
+```js
+// As a document
+var doc = myGexf.document;
+
+// As a string
+var string = myGexf.export();
+```
 
 ## Contribution
 Please feel free to contribute. To set up the dev environment you should have **nodejs**, **npm** and **gulp** installed.

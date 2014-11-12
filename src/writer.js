@@ -141,8 +141,6 @@
       for (i = 0, l = params.edges.length; i < l; i++)
         this.addEdge(params.edges[i]);
     }
-
-    console.log(this.document);
   }
 
   /**
