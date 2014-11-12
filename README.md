@@ -197,6 +197,7 @@ Possible parameters are:
 * **nodes** *?array*: array of nodes to pass at instantiation time.
 * **edges** *?array*: array of edges to pass at instantiation time.
 * **implementation** *?DOMImplementation*: the DOM implementation to build the XML document. Will take the browser's one by default of xmldom's one in node.
+* **serializer** *?XMLSerializer*: the XMLSerializer class to serialize the XML document. Will default to the browser's one or xmldom's one in node.
 * **namespace** *?string* [`'http://www.gexf.net/1.2draft'`]: gexf XML namespace to use.
 * **version** *?string* [`'1.2'`]: version of gexf to produce.
 
@@ -250,7 +251,7 @@ myGexf.addEdge({
 });
 ```
 
-*export*
+*serialize*
 
 Produce the string representation of the gexf document.
 
@@ -261,7 +262,7 @@ Produce the string representation of the gexf document.
 var doc = myGexf.document;
 
 // As a string
-var string = myGexf.export();
+var string = myGexf.serialize();
 ```
 
 ## Contribution

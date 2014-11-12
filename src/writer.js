@@ -1,4 +1,4 @@
-;(function(undefined) {
+;(function(document, undefined) {
   'use strict';
 
   /**
@@ -75,6 +75,11 @@
     params = params || {};
 
     var implementation = params.implementation || document.implementation;
+
+    // Serializer?
+    this.serializer = params.serializer ?
+      new params.serializer() :
+      new XMLSerializer();
 
     // Creating document
     this.document = implementation.createDocument(
@@ -404,9 +409,9 @@
     return this;
   };
 
-  Gexf.prototype.export = function() {
-    return '<?xml version="1.0" encoding="' + this.encoding +'"?>\n' +
-      this.root.outerHTML;
+  Gexf.prototype.serialize = function() {
+    return '<?xml version="1.0" encoding="' + this.encoding +'"?>' +
+      this.serializer.serializeToString(this.document);
   };
 
   /**
@@ -454,4 +459,4 @@
     }
   }
 
-}).call(this);
+}).call(this, 'document' in this ? this.document : {});

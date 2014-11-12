@@ -8,6 +8,7 @@
  */
 var DOMParser = require('xmldom').DOMParser,
     DOMImplementation = require('xmldom').DOMImplementation,
+    XMLSerializer = require('xmldom').XMLSerializer,
     parser = require('./src/parser.js'),
     writer = require('./src/writer.js');
 
@@ -50,8 +51,11 @@ gexf.parse = function(string) {
 gexf.create = function(params) {
 
   // Forcing implementation
-  return writer.create.apply(writer, extend(
-    {implementation: DOMImplementation},
+  return writer.create.call(writer, extend(
+    {
+      implementation: DOMImplementation.prototype,
+      serializer: XMLSerializer
+    },
     params
   ));
 }
