@@ -7,10 +7,16 @@
  * Version: 0.1.1
  */
 var DOMParser = require('xmldom').DOMParser,
-    gexf = require('./src/parser.js');
+    DOMImplementation = require('xmldom').DOMImplementation,
+    parser = require('./src/parser.js'),
+    writer = require('./src/writer.js');
 
 exports.parse = function(string) {
   var p = new DOMParser();
   var xml = p.parseFromString(string, 'application/xml');
-  return gexf.parse(xml);
+  return parser.parse(xml);
+}
+
+exports.create = function() {
+  return writer.create.apply(writer, Array.prototype.slice.call(arguments));
 }

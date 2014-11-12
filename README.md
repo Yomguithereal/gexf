@@ -1,15 +1,15 @@
 [![Build Status](https://travis-ci.org/Yomguithereal/gexf-parser.svg)](https://travis-ci.org/Yomguithereal/gexf-parser)
 
-#GEXF JavaScript Library
+# GEXF JavaScript Library
 
-##Description
+## Description
 This gexf library is designed to parse and, in a near future, create gexf files. It can be used either client-side or with node.
 
 It was originally developed to be used with [sigma](https://github.com/jacomyal/sigma.js) and can be compiled as a [sigma plugin](https://github.com/jacomyal/sigma.js/tree/master/plugins/sigma.parsers.gexf).
 
-##Usage
+## Usage
 
-###Client-side
+### Client-side
 The gexf can either be used to fetch and parse the .gexf file or just to parse it if you want to fetch it by your own means. The parser adds a `gexf` variable to your global scope so you can use it.
 
 **Fetching and parsing**
@@ -142,7 +142,7 @@ The following example shows what the parser is able to output given a gexf file.
 }
 ```
 
-##Contribution
+## Contribution
 Please feel free to contribute. To set up the dev environment you should have **nodejs**, **npm** and **grunt** installed.
 
 Also, to lint the files, you need [gjslint](https://developers.google.com/closure/utilities/docs/linter_howto?hl=fr).
