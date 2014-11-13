@@ -199,6 +199,7 @@ Possible parameters are:
 * **implementation** *?DOMImplementation*: the DOM implementation to build the XML document. Will take the browser's one by default of xmldom's one in node.
 * **serializer** *?XMLSerializer*: the XMLSerializer class to serialize the XML document. Will default to the browser's one or xmldom's one in node.
 * **namespace** *?string* [`'http://www.gexf.net/1.2draft'`]: gexf XML namespace to use.
+* **vizNamespace** *?string* [`'http:///www.gexf.net/1.2draft/viz'`]: gexf viz XML namespace to use.
 * **version** *?string* [`'1.2'`]: version of gexf to produce.
 
 ### Methods
