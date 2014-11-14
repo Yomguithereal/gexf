@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Yomguithereal/gexf-parser.svg)](https://travis-ci.org/Yomguithereal/gexf-parser)
+[![Build Status](https://travis-ci.org/Yomguithereal/gexf.svg)](https://travis-ci.org/Yomguithereal/gexf)
 
 # GEXF JavaScript Library
 
@@ -59,7 +59,7 @@ var myGexf = gexf.create([params]);
 npm install gexf
 
 # For the development version
-npm install git+https://github.com/Yomguithereal/gexf-parser.git
+npm install git+https://github.com/Yomguithereal/gexf.git
 ```
 
 **Parsing**
@@ -88,8 +88,8 @@ var myGexf = gexf.create([params]);
 If you want to build the minified client version, clone this repo and launch the build task.
 
 ```bash
-git clone git@github.com:Yomguithereal/gexf-parser.git
-cd gexf-parser
+git clone git@github.com:Yomguithereal/gexf.git
+cd gexf
 npm install
 gulp build
 ```
@@ -270,8 +270,8 @@ var string = myGexf.serialize();
 Please feel free to contribute. To set up the dev environment you should have **nodejs**, **npm** and **gulp** installed.
 
 ```bash
-git clone git@github.com:Yomguithereal/gexf-parser.git
-cd gexf-parser
+git clone git@github.com:Yomguithereal/gexf.git
+cd gexf
 npm install
 ```
 
