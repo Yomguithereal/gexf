@@ -4,7 +4,7 @@
  *
  * Author: PLIQUE Guillaume (Yomguithereal)
  * URL: https://github.com/Yomguithereal/gexf-parser
- * Version: 0.2.1
+ * Version: 0.2.2
  */
 var DOMParser = require('xmldom').DOMParser,
     DOMImplementation = require('xmldom').DOMImplementation,
@@ -39,7 +39,7 @@ function extend() {
 var gexf = {};
 
 Object.defineProperty(gexf, 'version', {
-  value: '0.2.1'
+  value: '0.2.2'
 });
 
 gexf.parse = function(string) {
