@@ -7,9 +7,9 @@
   "keywords": [
     "gexf",
     "parser",
+    "writer",
     "xml",
-    "graph",
-    "sigma-js"
+    "graph"
   ],
   "bugs": "http://github.com/Yomguithereal/gexf-parser/issues",
   "author": {

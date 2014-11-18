@@ -10,9 +10,9 @@
   "keywords": [
     "gexf",
     "parser",
+    "writer",
     "xml",
-    "graph",
-    "sigma-js"
+    "graph"
   ],
   "license": "MIT",
   "ignore": [
