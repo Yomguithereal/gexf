@@ -219,6 +219,7 @@
   };
 
   Gexf.prototype.setModel = function(cls, model) {
+    model = model || [];
 
     if (cls !== 'node' && cls !== 'edge')
       throw Error('gexf.writer.setModel: wrong model cls "' + cls + '"');
@@ -226,40 +227,28 @@
     if (!(model instanceof Array))
       throw Error('gexf.writer.setModel: model is not a valid array.');
 
+    // Reset model
+    this.models[cls] = {};
+
     // Adding the attributes
     var attributes = this.createElement('attributes', {class: cls});
 
-    var type,
-        a,
-        i,
-        l;
+    // Checking whether the model is to be reset
+    var prop = cls + 'Attributes';
 
-    for (i = 0, l = model.length; i < l; i++) {
-      a = model[i];
-      type = a.type || 'string';
+    if (this[prop])
+      this.graph.removeChild(this[prop]);
 
-      if (!~TYPES.indexOf(type))
-        throw Error('gexf.writer.setModel: unknown attribute type "' + type + '"');
-
-      // Adding to model
-      this.models[cls][a.id] = a;
-
-      var attribute = this.createElement('attribute', {
-        id: a.id,
-        title: a.title,
-        type: type
-      });
-
-      // Default value?
-      if (typeof a.defaultValue !== 'undefined') {
-        var defaultValue = this.createElement('default', a.defaultValue);
-        attribute.appendChild(defaultValue);
-      }
-
-      attributes.appendChild(attribute);
-    }
+    this[prop] = attributes;
 
     this.graph.insertBefore(attributes, this.nodes || this.edges);
+
+    // Creating attribute nodes
+    var i,
+        l;
+
+    for (i = 0, l = model.length; i < l; i++)
+      this.addAttribute(cls, model[i]);
 
     return this;
   };
@@ -270,6 +259,49 @@
 
   Gexf.prototype.setEdgeModel = function(model) {
     return this.setModel('edge', model);
+  };
+
+  Gexf.prototype.addAttribute = function(cls, def) {
+
+    if (cls !== 'node' && cls !== 'edge')
+      throw Error('gexf.writer.addAttribute: wrong model cls "' + cls + '"');
+
+    if (!def)
+      throw Error('gexf.writer.addAttribute: wrong arguments.');
+
+    if (!this[cls + 'Attributes'])
+      return this.setModel(cls, [def]);
+
+    var type = def.type || 'string';
+
+    if (!~TYPES.indexOf(type))
+      throw Error('gexf.writer.addAttribute: unknown attribute type "' + type + '"');
+
+    // Adding to model
+    this.models[cls][def.id] = def;
+
+    var attribute = this.createElement('attribute', {
+      id: def.id,
+      title: def.title,
+      type: type
+    });
+
+    // Default value?
+    if (typeof def.defaultValue !== 'undefined') {
+      var defaultValue = this.createElement('default', def.defaultValue);
+      attribute.appendChild(defaultValue);
+    }
+
+    this[cls + 'Attributes'].appendChild(attribute);
+    return this;
+  };
+
+  Gexf.prototype.addNodeAttribute = function(def) {
+    return this.addAttribute('node', def);
+  };
+
+  Gexf.prototype.addEdgeAttribute = function(def) {
+    return this.addAttribute('edge', def);
   };
 
   Gexf.prototype.addNode = function(n) {
@@ -295,7 +327,7 @@
         m = this.models.node[k];
 
         if (!m)
-          throw Error('gexf.writer.addNode: property "' + m + '" not registered in node model.');
+          throw Error('gexf.writer.addNode: property "' + k + '" not registered in node model.');
 
         var attvalue = this.createElement('attvalue', {
           'for': m.id,
@@ -385,7 +417,7 @@
         m = this.models.edge[k];
 
         if (!m)
-          throw Error('gexf.writer.addEdge: property "' + m + '" not registered in edge model.');
+          throw Error('gexf.writer.addEdge: property "' + k + '" not registered in edge model.');
 
         var attvalue = this.createElement('attvalue', {
           'for': m.id,
