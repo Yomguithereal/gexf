@@ -11,6 +11,20 @@
    */
 
   /**
+   * Constants
+   */
+  var TYPES = [
+    'integer',
+    'long',
+    'double',
+    'float',
+    'boolean',
+    'liststring',
+    'string',
+    'anyURI'
+  ];
+
+  /**
    * Helpers
    */
   function cast(type, value) {
@@ -218,6 +232,9 @@
 
     for (i = 0, l = model.length; i < l; i++) {
       a = model[i];
+
+      if (!~TYPES.indexOf(a.type))
+        throw Error('gexf.writer.setModel: unknown attribute type "' + a.type + '"');
 
       // Adding to model
       this.models[type][a.id] = a;
