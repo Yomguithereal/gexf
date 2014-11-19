@@ -204,18 +204,6 @@ Possible parameters are:
 
 ### Methods
 
-*setMeta*
-
-Same as passing a `meta` parameter at instantiation.
-
-*setNodeModel*
-
-Same as passing a `models.node` parameter at instantiation.
-
-*setEdgeModel*
-
-Same as passing a `models.edge` parameter at instantiation.
-
 *addNode*
 
 Adding a single node to the gexf document.
@@ -251,6 +239,26 @@ myGexf.addEdge({
   }
 });
 ```
+
+*setMeta*
+
+Same as passing a `meta` parameter at instantiation.
+
+*setNodeModel*
+
+Same as passing a `models.node` parameter at instantiation.
+
+*setEdgeModel*
+
+Same as passing a `models.edge` parameter at instantiation.
+
+*addNodeAttribute*
+
+Add a single node attribute definition to the node model.
+
+*addEdgeAttribute*
+
+Add a single edge attribute definition to the edge model.
 
 *serialize*
 
