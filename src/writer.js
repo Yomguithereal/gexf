@@ -139,6 +139,9 @@
       edge: {}
     };
 
+    this.nodeAttributes = null;
+    this.edgeAttributes = null;
+
     if (params.models && params.models.node)
       this.setNodeModel(params.models.node);
     if (params.models && params.models.edge)
@@ -215,34 +218,36 @@
     return this;
   };
 
-  Gexf.prototype.setModel = function(type, model) {
+  Gexf.prototype.setModel = function(cls, model) {
 
-    if (type !== 'node' && type !== 'edge')
-      throw Error('gexf.writer.setModel: wrong model type "' + type + '"');
+    if (cls !== 'node' && cls !== 'edge')
+      throw Error('gexf.writer.setModel: wrong model cls "' + cls + '"');
 
     if (!(model instanceof Array))
       throw Error('gexf.writer.setModel: model is not a valid array.');
 
     // Adding the attributes
-    var attributes = this.createElement('attributes', {class: type});
+    var attributes = this.createElement('attributes', {class: cls});
 
-    var a,
+    var type,
+        a,
         i,
         l;
 
     for (i = 0, l = model.length; i < l; i++) {
       a = model[i];
+      type = a.type || 'string';
 
-      if (!~TYPES.indexOf(a.type))
-        throw Error('gexf.writer.setModel: unknown attribute type "' + a.type + '"');
+      if (!~TYPES.indexOf(type))
+        throw Error('gexf.writer.setModel: unknown attribute type "' + type + '"');
 
       // Adding to model
-      this.models[type][a.id] = a;
+      this.models[cls][a.id] = a;
 
       var attribute = this.createElement('attribute', {
         id: a.id,
         title: a.title,
-        type: a.type
+        type: type
       });
 
       // Default value?
@@ -254,7 +259,7 @@
       attributes.appendChild(attribute);
     }
 
-    this.graph.appendChild(attributes);
+    this.graph.insertBefore(attributes, this.nodes || this.edges);
 
     return this;
   };
