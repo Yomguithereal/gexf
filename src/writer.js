@@ -496,7 +496,7 @@
     create: create,
 
     // Version
-    version: '0.2.3'
+    version: '0.2.4'
   };
 
   if (typeof exports !== 'undefined') {
