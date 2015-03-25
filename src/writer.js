@@ -402,7 +402,7 @@
     var edge = this.createElement('edge', {
       id: e.id,
       label: e.label,
-      weigth: e.weight,
+      weight: e.weight,
       type: e.type,
       source: e.source,
       target: e.target
