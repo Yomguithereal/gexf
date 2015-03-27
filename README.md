@@ -106,18 +106,20 @@ The following example shows what the parser is able to output given a gexf file.
     title: "A random graph"
   },
   defaultEdgeType: "directed",
-  model: [
-    {
-      id: "authority",
-      type: "float",
-      title: "Authority"
-    },
-    {
-      id: "name",
-      type: "string",
-      title: "Author's name"
-    }
-  ],
+  model: {
+    node: [
+      {
+        id: "authority",
+        type: "float",
+        title: "Authority"
+      },
+      {
+        id: "name",
+        type: "string",
+        title: "Author's name"
+      }
+    ]
+  },
   nodes: [
     {
       id: "0",

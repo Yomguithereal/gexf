@@ -134,7 +134,7 @@
     this.root.appendChild(this.graph);
 
     // Model
-    this.models = {
+    this.model = {
       node: {},
       edge: {}
     };
@@ -142,10 +142,10 @@
     this.nodeAttributes = null;
     this.edgeAttributes = null;
 
-    if (params.models && params.models.node)
-      this.setNodeModel(params.models.node);
-    if (params.models && params.models.edge)
-      this.setEdgeModel(params.models.edge);
+    if (params.model && params.model.node)
+      this.setNodeModel(params.model.node);
+    if (params.model && params.model.edge)
+      this.setEdgeModel(params.model.edge);
 
     // Nodes & Edges
     this.nodes = this.createElement('nodes');
@@ -228,7 +228,7 @@
       throw Error('gexf.writer.setModel: model is not a valid array.');
 
     // Reset model
-    this.models[cls] = {};
+    this.model[cls] = {};
 
     // Adding the attributes
     var attributes = this.createElement('attributes', {class: cls});
@@ -278,7 +278,7 @@
       throw Error('gexf.writer.addAttribute: unknown attribute type "' + type + '"');
 
     // Adding to model
-    this.models[cls][def.id] = def;
+    this.model[cls][def.id] = def;
 
     var attribute = this.createElement('attribute', {
       id: def.id,
@@ -324,7 +324,7 @@
 
       for (k in n.attributes || {}) {
         a = n.attributes[k];
-        m = this.models.node[k];
+        m = this.model.node[k];
 
         if (!m)
           throw Error('gexf.writer.addNode: property "' + k + '" not registered in node model.');
@@ -414,7 +414,7 @@
 
       for (k in e.attributes || {}) {
         a = e.attributes[k];
-        m = this.models.edge[k];
+        m = this.model.edge[k];
 
         if (!m)
           throw Error('gexf.writer.addEdge: property "' + k + '" not registered in edge model.');
