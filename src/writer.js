@@ -461,7 +461,7 @@
 
       if (e.viz.thickness) {
         var thickness = this.createElement('viz:thickness', {
-          value: e.viz.shape
+          value: e.viz.thickness
         });
 
         edge.appendChild(thickness);
