@@ -193,7 +193,7 @@ Possible parameters are:
 * **defaultEdgeType** *?string* [`'undirected'`]: default edge type.
 * **encoding** *?string* [`'UTF-8'`]: encoding of the XML file.
 * **mode** *?string*: mode of the graph. `static` or `dynamic` for instance.
-* **models** *?object*: an object containing the models of the nodes and/or edges.
+* **model** *?object*: an object containing the models of the nodes and/or edges.
   * **node** *?array*: array of node possible attributes. see [output data](#output-data) for precisions.
   * **edge** *?array*: array of edge possible attributes. see [output data](#output-data) for precisions.
 * **nodes** *?array*: array of nodes to pass at instantiation time.
