@@ -39,7 +39,7 @@ function extend() {
 var gexf = {};
 
 Object.defineProperty(gexf, 'version', {
-  value: '0.2.4'
+  value: '0.2.5'
 });
 
 gexf.parse = function(string) {
