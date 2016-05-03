@@ -3,7 +3,7 @@
 # GEXF JavaScript Library
 
 ## Description
-This gexf library is designed to parse and write [gexf](http://gexf.net/format/) files. It can be used either client-side or with node.
+This gexf library is designed to parse and write [gexf](https://gephi.org/gexf/format/) files. It can be used either client-side or with node.
 
 It was originally developed to be used with [sigma](https://github.com/jacomyal/sigma.js) and can be compiled as a [sigma plugin](https://github.com/jacomyal/sigma.js/tree/master/plugins/sigma.parsers.gexf).
 
