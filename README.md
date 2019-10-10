@@ -2,6 +2,10 @@
 
 # GEXF JavaScript Library
 
+## DEPRECATION NOTICE
+
+This library, while probably still working, should be considered unmaintained and has been replaced by [graphology-gexf](https://github.com/graphology/graphology-gexf).
+
 ## Description
 This gexf library is designed to parse and write [gexf](https://gephi.org/gexf/format/) files. It can be used either client-side or with node.
 
