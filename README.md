@@ -4,7 +4,7 @@
 
 ## DEPRECATION NOTICE
 
-This library, while probably still working, should be considered unmaintained and has been replaced by [`graphology-gexf`]([https://github.com/graphology/graphology/tree/master/src/gexf](https://graphology.github.io/standard-library/gexf)), the gexf parser/writer utilities of [`graphology`](https://graphology.github.io/).
+This library, while probably still working, should be considered unmaintained and has been replaced by [`graphology-gexf`](https://graphology.github.io/standard-library/gexf), the gexf parser/writer utilities of [`graphology`](https://graphology.github.io/).
 
 ## Description
 This gexf library is designed to parse and write [gexf](https://gephi.org/gexf/format/) files. It can be used either client-side or with node.
